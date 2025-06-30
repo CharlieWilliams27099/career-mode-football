@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #0d1b2a, #1b263b, #415a77, #778da9);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-screen {
+  text-align: center;
+  color: #f8f9fa;
+}
+
+.title-screen h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.title-screen button {
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  background-color: #1b263b;
+  color: #f8f9fa;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.title-screen button:hover {
+  background-color: #415a77;
+}
