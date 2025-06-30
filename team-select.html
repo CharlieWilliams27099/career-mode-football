@@ -15,14 +15,15 @@
       padding-top: 50px;
     }
 
-    h1 {
-      margin-bottom: 40px;
+    h1, h2 {
+      margin-bottom: 20px;
+      text-align: center;
     }
 
     .teams button {
       background-color: #1b263b;
       color: #fff;
-      padding: 16px 32px;
+      padding: 14px 28px;
       margin: 10px;
       border: none;
       border-radius: 8px;
@@ -37,20 +38,34 @@
   </style>
 </head>
 <body>
-  <h1>Select Your Club</h1>
-  <div class="teams">
-    <button onclick="chooseTeam('Thunder FC')">Thunder FC</button>
-    <button onclick="chooseTeam('Iron City United')">Iron City United</button>
-    <button onclick="chooseTeam('Coastal Rovers')">Coastal Rovers</button>
-  </div>
+  <h1>Select Your Team</h1>
+  <h2 id="league-display"></h2>
+
+  <div class="teams" id="team-buttons"></div>
 
   <script>
-    function chooseTeam(teamName) {
-      localStorage.setItem('selectedTeam', teamName);
-      alert('You selected: ' + teamName);
-      // Next: Redirect to manager dashboard or schedule screen
-      // window.location.href = 'dashboard.html';
-    }
+    const selectedLeague = localStorage.getItem('selectedLeague') || 'No League Selected';
+    document.getElementById('league-display').innerText = "League: " + selectedLeague;
+
+    const leagueTeams = {
+      "Premier League": ["Kingsport FC", "Northern United", "Westfield Rovers"],
+      "Championship": ["Redhill AFC", "Blackbridge Town", "Greenfield Albion"],
+      "International League": ["Paris Phoenix", "Berlin Wolves", "Madrid Comets"]
+    };
+
+    const teams = leagueTeams[selectedLeague] || ["Generic FC", "Default United"];
+    const container = document.getElementById('team-buttons');
+
+    teams.forEach(team => {
+      const btn = document.createElement('button');
+      btn.textContent = team;
+      btn.onclick = () => {
+        localStorage.setItem('selectedTeam', team);
+        alert("You selected: " + team);
+        // window.location.href = "dashboard.html";
+      };
+      container.appendChild(btn);
+    });
   </script>
 </body>
 </html>
