@@ -85,6 +85,7 @@ const leagueTeams = {
   const container = document.getElementById('team-buttons');
   container.innerHTML = ""; // Clear any old buttons
 const teamBadges = {
+const teamBadges = {
   "Arsenal": "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg",
   "Manchester City": "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
   "Liverpool": "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
@@ -99,19 +100,34 @@ const teamBadges = {
   "Charlton Athletic": "https://upload.wikimedia.org/wikipedia/en/2/29/Charlton_Athletic_crest.svg",
   "Wrexham": "https://upload.wikimedia.org/wikipedia/en/f/f5/Wrexham_AFC_crest_2022.svg",
   "Stockport County": "https://upload.wikimedia.org/wikipedia/en/e/e7/Stockport_County_FC.svg"
-  // Add more teams as needed...
+  // Add more teams here as needed
 };
 
-  teams.forEach(team => {
-    const btn = document.createElement('button');
-    btn.textContent = team;
-    btn.onclick = () => {
-      localStorage.setItem('selectedTeam', team);
-      alert(`You selected ${team} in the ${selectedLeague}`);
-      // window.location.href = 'dashboard.html';
-    };
-    container.appendChild(btn);
-  });
+teams.forEach(team => {
+  const btn = document.createElement('button');
+  btn.className = "team-button";
+
+  const img = document.createElement('img');
+  img.src = teamBadges[team] || "";
+  img.alt = team + " badge";
+  img.style.width = "30px";
+  img.style.height = "30px";
+  img.style.marginRight = "10px";
+
+  const span = document.createElement('span');
+  span.textContent = team;
+
+  btn.appendChild(img);
+  btn.appendChild(span);
+
+  btn.onclick = () => {
+    localStorage.setItem('selectedTeam', team);
+    alert(`You selected ${team}`);
+  };
+
+  container.appendChild(btn);
+});
+
 </script>
 
 </body>
