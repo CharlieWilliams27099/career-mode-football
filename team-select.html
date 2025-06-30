@@ -5,6 +5,27 @@
   <title>Select Your Team</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    .team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  padding: 10px;
+}
+
+.team-button {
+  padding: 12px;
+  font-size: 16px;
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.team-button:hover {
+  background-color: #e1e1e1;
+}
+
     body {
       background: linear-gradient(to bottom, #0d1b2a, #415a77);
       font-family: 'Segoe UI', sans-serif;
@@ -40,6 +61,7 @@
 <body>
   <h1>Select Your Team</h1>
   <h2 id="league-display"></h2>
+<div class="teams team-grid" id="team-buttons"></div>
 
   <div class="teams" id="team-buttons"></div>
 <script>
