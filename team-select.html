@@ -84,6 +84,23 @@ const leagueTeams = {
   const teams = leagueTeams[selectedLeague] || ["Default FC"];
   const container = document.getElementById('team-buttons');
   container.innerHTML = ""; // Clear any old buttons
+const teamBadges = {
+  "Arsenal": "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg",
+  "Manchester City": "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
+  "Liverpool": "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
+  "Chelsea": "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
+  "Leeds United": "https://upload.wikimedia.org/wikipedia/en/0/0c/Leeds_United_Logo.svg",
+  "Southampton": "https://upload.wikimedia.org/wikipedia/en/c/c9/FC_Southampton.svg",
+  "Norwich City": "https://upload.wikimedia.org/wikipedia/en/1/1c/Norwich_City.svg",
+  "West Bromwich Albion": "https://upload.wikimedia.org/wikipedia/en/8/8b/West_Bromwich_Albion.svg",
+  "Portsmouth": "https://upload.wikimedia.org/wikipedia/en/9/9b/Portsmouth.svg",
+  "Derby County": "https://upload.wikimedia.org/wikipedia/en/1/1d/Derby_County_crest.svg",
+  "Blackpool": "https://upload.wikimedia.org/wikipedia/en/f/f6/Blackpool_FC_logo.svg",
+  "Charlton Athletic": "https://upload.wikimedia.org/wikipedia/en/2/29/Charlton_Athletic_crest.svg",
+  "Wrexham": "https://upload.wikimedia.org/wikipedia/en/f/f5/Wrexham_AFC_crest_2022.svg",
+  "Stockport County": "https://upload.wikimedia.org/wikipedia/en/e/e7/Stockport_County_FC.svg"
+  // Add more teams as needed...
+};
 
   teams.forEach(team => {
     const btn = document.createElement('button');
