@@ -106,19 +106,23 @@ teams.forEach(team => {
   const btn = document.createElement('button');
   btn.className = "team-button";
 
+  // Create badge image
   const img = document.createElement('img');
   img.src = teamBadges[team] || "";
-  img.alt = team + " badge";
+  img.alt = `${team} badge`;
   img.style.width = "30px";
   img.style.height = "30px";
   img.style.marginRight = "10px";
 
+  // Create team name text
   const span = document.createElement('span');
   span.textContent = team;
 
+  // Add image and text to button
   btn.appendChild(img);
   btn.appendChild(span);
 
+  // Add click functionality
   btn.onclick = () => {
     localStorage.setItem('selectedTeam', team);
     alert(`You selected ${team}`);
@@ -126,6 +130,7 @@ teams.forEach(team => {
 
   container.appendChild(btn);
 });
+
 
 
   
