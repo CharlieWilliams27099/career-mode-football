@@ -47,10 +47,37 @@
   document.getElementById('league-display').innerText = "League: " + selectedLeague;
 
   const leagueTeams = {
-    "Premier League": ["Arsenal", "Manchester City", "Liverpool", "Chelsea"],
-    "Championship": ["Leeds United", "Southampton", "Norwich City", "West Bromwich Albion"],
-    "League One": ["Portsmouth", "Derby County", "Blackpool", "Charlton Athletic"]
-  };
+  "Premier League": [
+    "Arsenal", "Aston Villa", "Bournemouth", "Brentford",
+    "Brighton", "Chelsea", "Crystal Palace", "Everton",
+    "Fulham", "Liverpool", "Luton Town", "Manchester City",
+    "Manchester United", "Newcastle United", "Nottingham Forest",
+    "Sheffield United", "Tottenham Hotspur", "West Ham United",
+    "Wolverhampton Wanderers", "Burnley"
+  ],
+  "Championship": [
+    "Leeds United", "Southampton", "Norwich City", "West Bromwich Albion",
+    "Watford", "Stoke City", "Bristol City", "Coventry City",
+    "Hull City", "Swansea City", "Middlesbrough", "Millwall",
+    "Birmingham City", "Preston North End", "Cardiff City", "QPR",
+    "Blackburn Rovers", "Huddersfield Town", "Rotherham United", "Plymouth Argyle"
+  ],
+  "League One": [
+    "Portsmouth", "Derby County", "Blackpool", "Charlton Athletic",
+    "Barnsley", "Lincoln City", "Oxford United", "Peterborough United",
+    "Wycombe Wanderers", "Cambridge United", "Exeter City", "Wigan Athletic",
+    "Reading", "Shrewsbury Town", "Burton Albion", "Stevenage",
+    "Northampton Town", "Leyton Orient", "Carlisle United", "Fleetwood Town"
+  ],
+  "League Two": [
+    "Wrexham", "Stockport County", "Mansfield Town", "Crewe Alexandra",
+    "MK Dons", "Barrow", "Crawley Town", "Gillingham",
+    "Doncaster Rovers", "Morecambe", "Tranmere Rovers", "Newport County",
+    "AFC Wimbledon", "Harrogate Town", "Salford City", "Colchester United",
+    "Grimsby Town", "Accrington Stanley", "Forest Green Rovers", "Sutton United"
+  ]
+};
+
 
   const teams = leagueTeams[selectedLeague] || ["Default FC"];
   const container = document.getElementById('team-buttons');
