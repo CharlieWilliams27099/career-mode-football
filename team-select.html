@@ -45,29 +45,27 @@
 
   <script>
     const selectedLeague = localStorage.getItem('selectedLeague') || 'No League Selected';
-    document.getElementById('league-display').innerText = "League: " + selectedLeague;
+document.getElementById('league-display').innerText = "League: " + selectedLeague;
 
-    const leagueTeams = {
-      const leagueTeams = {
-  const leagueTeams = {
+const leagueTeams = {
   "Premier League": ["Arsenal", "Manchester City", "Liverpool", "Chelsea"],
   "Championship": ["Leeds United", "Southampton", "Norwich City", "West Bromwich Albion"],
   "League One": ["Portsmouth", "Derby County", "Blackpool", "Charlton Athletic"]
 };
 
-    const teams = leagueTeams[selectedLeague] || ["Generic FC", "Default United"];
-    const container = document.getElementById('team-buttons');
+const teams = leagueTeams[selectedLeague] || ["Generic FC", "Default United"];
+const container = document.getElementById('team-buttons');
 
-    teams.forEach(team => {
-      const btn = document.createElement('button');
-      btn.textContent = team;
-      btn.onclick = () => {
-        localStorage.setItem('selectedTeam', team);
-        alert("You selected: " + team);
-        // window.location.href = "dashboard.html";
-      };
-      container.appendChild(btn);
-    });
+teams.forEach(team => {
+  const btn = document.createElement('button');
+  btn.textContent = team;
+  btn.onclick = () => {
+    localStorage.setItem('selectedTeam', team);
+    alert("You selected: " + team);
+    // window.location.href = "dashboard.html";
+  };
+  container.appendChild(btn);
+});
   </script>
 </body>
 </html>
