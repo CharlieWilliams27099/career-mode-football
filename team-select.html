@@ -42,30 +42,31 @@
   <h2 id="league-display"></h2>
 
   <div class="teams" id="team-buttons"></div>
+<script>
+  const selectedLeague = localStorage.getItem('selectedLeague') || 'Unknown League';
+  document.getElementById('league-display').innerText = "League: " + selectedLeague;
 
-  <script>
-    const selectedLeague = localStorage.getItem('selectedLeague') || 'No League Selected';
-document.getElementById('league-display').innerText = "League: " + selectedLeague;
-
-const leagueTeams = {
-  "Premier League": ["Arsenal", "Manchester City", "Liverpool", "Chelsea"],
-  "Championship": ["Leeds United", "Southampton", "Norwich City", "West Bromwich Albion"],
-  "League One": ["Portsmouth", "Derby County", "Blackpool", "Charlton Athletic"]
-};
-
-const teams = leagueTeams[selectedLeague] || ["Generic FC", "Default United"];
-const container = document.getElementById('team-buttons');
-
-teams.forEach(team => {
-  const btn = document.createElement('button');
-  btn.textContent = team;
-  btn.onclick = () => {
-    localStorage.setItem('selectedTeam', team);
-    alert("You selected: " + team);
-    // window.location.href = "dashboard.html";
+  const leagueTeams = {
+    "Premier League": ["Arsenal", "Manchester City", "Liverpool", "Chelsea"],
+    "Championship": ["Leeds United", "Southampton", "Norwich City", "West Bromwich Albion"],
+    "League One": ["Portsmouth", "Derby County", "Blackpool", "Charlton Athletic"]
   };
-  container.appendChild(btn);
-});
-  </script>
+
+  const teams = leagueTeams[selectedLeague] || ["Default FC"];
+  const container = document.getElementById('team-buttons');
+  container.innerHTML = ""; // Clear any old buttons
+
+  teams.forEach(team => {
+    const btn = document.createElement('button');
+    btn.textContent = team;
+    btn.onclick = () => {
+      localStorage.setItem('selectedTeam', team);
+      alert(`You selected ${team} in the ${selectedLeague}`);
+      // window.location.href = 'dashboard.html';
+    };
+    container.appendChild(btn);
+  });
+</script>
+
 </body>
 </html>
