@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Select Your Team</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: linear-gradient(to bottom, #0d1b2a, #415a77);
+      font-family: 'Segoe UI', sans-serif;
+      color: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 50px;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+    }
+
+    .teams button {
+      background-color: #1b263b;
+      color: #fff;
+      padding: 16px 32px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .teams button:hover {
+      background-color: #415a77;
+    }
+  </style>
+</head>
+<body>
+  <h1>Select Your Club</h1>
+  <div class="teams">
+    <button onclick="chooseTeam('Thunder FC')">Thunder FC</button>
+    <button onclick="chooseTeam('Iron City United')">Iron City United</button>
+    <button onclick="chooseTeam('Coastal Rovers')">Coastal Rovers</button>
+  </div>
+
+  <script>
+    function chooseTeam(teamName) {
+      localStorage.setItem('selectedTeam', teamName);
+      alert('You selected: ' + teamName);
+      // Next: Redirect to manager dashboard or schedule screen
+      // window.location.href = 'dashboard.html';
+    }
+  </script>
+</body>
+</html>
