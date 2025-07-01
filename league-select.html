@@ -6,54 +6,53 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      background: linear-gradient(to bottom, #0d1b2a, #415a77);
-      font-family: 'Segoe UI', sans-serif;
+      background-color: #0b132b;
       color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 60px;
+    }
+    h1 {
+      margin-bottom: 40px;
+      font-size: 2.5rem;
+    }
+    .leagues {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 50px;
+      gap: 20px;
     }
-
-    h1 {
-      margin-bottom: 30px;
-    }
-
     .leagues button {
-      background-color: #1b263b;
-      color: #fff;
       padding: 16px 32px;
-      margin: 10px;
+      font-size: 1.2rem;
+      background-color: #1c2541;
+      color: white;
       border: none;
       border-radius: 8px;
-      font-size: 1.1rem;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: background 0.3s ease;
+      width: 250px;
     }
-
     .leagues button:hover {
-      background-color: #415a77;
+      background-color: #3a506b;
     }
   </style>
 </head>
 <body>
-  <h1>Select Your League</h1>
+  <h1>Choose Your League</h1>
   <div class="leagues">
     <button onclick="chooseLeague('Premier League')">Premier League</button>
-<button onclick="chooseLeague('Championship')">Championship</button>
-<button onclick="chooseLeague('League One')">League One</button>
-<button onclick="chooseLeague('League Two')">League Two</button>
-
-
+    <button onclick="chooseLeague('Championship')">Championship</button>
+    <button onclick="chooseLeague('League One')">League One</button>
+    <button onclick="chooseLeague('League Two')">League Two</button>
+  </div>
 
   <script>
     function chooseLeague(leagueName) {
       localStorage.setItem('selectedLeague', leagueName);
       window.location.href = 'team-select.html';
     }
-</script>
-    button.addEventListener("click", () => {
-  
-
+  </script>
 </body>
 </html>
+
