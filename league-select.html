@@ -51,8 +51,7 @@
       localStorage.setItem('selectedLeague', leagueName);
       window.location.href = 'team-select.html';
     }
-  <script>
-  document.querySelectorAll("button").forEach(button => {
+
     button.addEventListener("click", () => {
       const league = button.textContent.trim();
       window.location.href = `team-select.html?league=${encodeURIComponent(league)}`;
