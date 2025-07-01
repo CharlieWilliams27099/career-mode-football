@@ -5,7 +5,7 @@
   <title>Select Your Team</title>
   <style>
     body {
-      background-color: #0b132b;
+      background: #0b132b;
       color: #f8f9fa;
       font-family: 'Segoe UI', sans-serif;
       padding: 40px 20px;
@@ -46,41 +46,25 @@
 
   <script>
     const leagueTeams = {
-      "Premier League": [
-        "Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton", "Burnley",
-        "Chelsea", "Crystal Palace", "Everton", "Fulham", "Liverpool", "Luton Town",
-        "Man City", "Man United", "Newcastle", "Nottingham Forest", "Sheffield United",
-        "Spurs", "West Ham", "Wolves"
-      ],
-      "Championship": [
-        "Birmingham", "Blackburn", "Bristol City", "Cardiff", "Coventry", "Huddersfield",
-        "Hull", "Ipswich", "Leeds", "Leicester", "Middlesbrough", "Millwall", "Norwich",
-        "Plymouth", "Preston", "QPR", "Rotherham", "Sheffield Wednesday", "Southampton",
-        "Stoke", "Sunderland", "Swansea", "Watford", "West Brom"
-      ],
-      "League One": [
-        "Barnsley", "Blackpool", "Bolton", "Bristol Rovers", "Burton Albion", "Cambridge United",
-        "Carlisle", "Charlton", "Cheltenham", "Derby", "Exeter", "Fleetwood", "Leyton Orient",
-        "Lincoln", "Northampton", "Oxford United", "Peterborough", "Port Vale", "Portsmouth",
-        "Reading", "Shrewsbury", "Stevenage", "Wigan", "Wycombe"
-      ],
-      "League Two": [
-        "Accrington", "AFC Wimbledon", "Barrow", "Bradford", "Colchester", "Crawley", "Crewe",
-        "Doncaster", "Forest Green", "Gillingham", "Grimsby", "Harrogate", "Mansfield", "MK Dons",
-        "Morecambe", "Newport County", "Notts County", "Salford", "Stockport", "Sutton United",
-        "Swindon", "Tranmere", "Walsall", "Wrexham"
-      ]
+      "Premier League": ["Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton", "Burnley", "Chelsea", "Crystal Palace", "Everton", "Fulham", "Liverpool", "Luton Town", "Man City", "Man United", "Newcastle", "Nottingham Forest", "Sheffield United", "Spurs", "West Ham", "Wolves"],
+      "Championship": ["Birmingham", "Blackburn", "Bristol City", "Cardiff", "Coventry", "Huddersfield", "Hull", "Ipswich", "Leeds", "Leicester", "Middlesbrough", "Millwall", "Norwich", "Plymouth", "Preston", "QPR", "Rotherham", "Sheffield Wednesday", "Southampton", "Stoke", "Sunderland", "Swansea", "Watford", "West Brom"],
+      "League One": ["Barnsley", "Blackpool", "Bolton", "Bristol Rovers", "Burton Albion", "Cambridge United", "Carlisle", "Charlton", "Cheltenham", "Derby", "Exeter", "Fleetwood", "Leyton Orient", "Lincoln", "Northampton", "Oxford United", "Peterborough", "Port Vale", "Portsmouth", "Reading", "Shrewsbury", "Stevenage", "Wigan", "Wycombe"],
+      "League Two": ["Accrington", "AFC Wimbledon", "Barrow", "Bradford", "Colchester", "Crawley", "Crewe", "Doncaster", "Forest Green", "Gillingham", "Grimsby", "Harrogate", "Mansfield", "MK Dons", "Morecambe", "Newport County", "Notts County", "Salford", "Stockport", "Sutton United", "Swindon", "Tranmere", "Walsall", "Wrexham"]
     };
 
     const selectedLeague = localStorage.getItem("selectedLeague");
     const leagueHeader = document.getElementById("league-title");
     const teamContainer = document.getElementById("team-container");
 
-    if (!selectedLeague || !leagueTeams[selectedLeague]) {
-      leagueHeader.textContent = "Oops! League not selected or not found.";
-    } else {
+    function buildButtons() {
+      teamContainer.innerHTML = ""; // ✅ clear existing buttons
+
+      if (!selectedLeague || !leagueTeams[selectedLeague]) {
+        leagueHeader.textContent = "Oops! League not selected or not found.";
+        return;
+      }
+
       leagueHeader.textContent = `Select a Club from the ${selectedLeague}`;
-      teamContainer.innerHTML = ""; // ✅ Prevent duplication
 
       leagueTeams[selectedLeague].forEach(team => {
         const button = document.createElement("button");
@@ -93,8 +77,11 @@
         teamContainer.appendChild(button);
       });
     }
+
+    window.addEventListener("DOMContentLoaded", buildButtons);
   </script>
 </body>
 </html>
+
 
 
