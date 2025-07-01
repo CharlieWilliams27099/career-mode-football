@@ -3,49 +3,77 @@
 <head>
   <meta charset="UTF-8" />
   <title>Club Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      background: #1b263b;
-      color: #f8f9fa;
+      background: #fff8e1;
+      color: #333;
       font-family: 'Segoe UI', sans-serif;
-      padding: 40px;
-      text-align: center;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      position: relative;
     }
-    h1, h2 {
-      margin-bottom: 20px;
+
+    h1 {
+      font-size: 2.5rem;
+      color: #d4af37;
+      margin-bottom: 10px;
     }
+
     .actions {
-      margin-top: 30px;
+      margin-top: 40px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
+
     .actions button {
-      background-color: #415a77;
-      color: #fff;
-      padding: 14px 28px;
-      margin: 10px;
+      padding: 16px 28px;
+      font-size: 1.1rem;
+      background-color: #ffd54f;
+      color: #000;
       border: none;
       border-radius: 8px;
-      font-size: 1.1rem;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: background 0.25s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
+
     .actions button:hover {
-      background-color: #778da9;
+      background-color: #ffca28;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      font-size: 10px;
+      color: #999;
     }
   </style>
 </head>
 <body>
-  <h1 id="welcome-title">Welcome!</h1>
-  <h2 id="league-title"></h2>
+  <h1 id="team-title">Welcome!</h1>
+
   <div class="actions">
-    <button onclick="alert('Feature coming soon!')">📋 View Squad</button>
+    <button onclick="alert('View Squad feature coming soon!')">📋 View Squad</button>
     <button onclick="alert('Fixtures not available yet')">📅 View Fixtures</button>
-    <button onclick="alert('Season start feature coming soon!')">🚀 Start Season</button>
+    <button onclick="alert('Season start coming soon!')">🚀 Start Season</button>
   </div>
 
+  <div class="footer">callyman sam</div>
+
   <script>
-    const team = localStorage.getItem('selectedTeam') || "Unknown Team";
-    const league = localStorage.getItem('selectedLeague') || "Unknown League";
+    const team = localStorage.getItem("selectedTeam") || "Unknown Team";
+    document.getElementById("team-title").textContent = `Welcome to ${team}!`;
+  </script>
+</body>
+</html>
+
 
     document.getElementById("welcome-title").textContent = `Welcome to ${team}!`;
     document.getElementById("league-title").textContent = `You're managing a club in ${league}.`;
