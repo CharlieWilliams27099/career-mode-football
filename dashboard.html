@@ -4,9 +4,14 @@
   <meta charset="UTF-8" />
   <title>Club Dashboard</title>
   <style>
+    :root {
+      --accent-color: #d4af37;
+      --text-color: #ffffff;
+    }
+
     body {
-      background: #fff8e1;
-      color: #333;
+      background-color: var(--accent-color);
+      color: var(--text-color);
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 40px 20px;
@@ -15,13 +20,13 @@
       align-items: center;
       min-height: 100vh;
       position: relative;
+      transition: background 0.3s ease;
     }
 
     h1 {
       font-size: 2.5rem;
-      color: #d4af37;
       margin-bottom: 20px;
-      text-align: center;
+      color: var(--text-color);
     }
 
     .actions {
@@ -35,17 +40,16 @@
     .actions button {
       padding: 14px 24px;
       font-size: 1.1rem;
-      background-color: #ffd54f;
-      color: #000;
-      border: none;
+      background-color: rgba(255,255,255,0.2);
+      color: var(--text-color);
+      border: 2px solid #ffffff66;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 0.25s ease;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s ease;
     }
 
     .actions button:hover {
-      background-color: #ffca28;
+      background-color: rgba(255,255,255,0.35);
     }
 
     .footer {
@@ -53,7 +57,7 @@
       bottom: 10px;
       right: 14px;
       font-size: 10px;
-      color: #999;
+      color: #f0f0f0aa;
     }
   </style>
 </head>
@@ -71,7 +75,51 @@
   <script>
     const team = localStorage.getItem("selectedTeam") || "Unknown Team";
     document.getElementById("team-title").textContent = `Welcome to ${team}!`;
+
+    // 92 team colors (sampled and matched as close as possible)
+    const teamColors = {
+      // Premier League
+      "Arsenal": "#a00000", "Aston Villa": "#670e36", "Bournemouth": "#da291c", "Brentford": "#e30613", "Brighton": "#0057b8",
+      "Burnley": "#6c1d45", "Chelsea": "#034694", "Crystal Palace": "#1b458f", "Everton": "#003399", "Fulham": "#000000",
+      "Liverpool": "#c8102e", "Luton Town": "#f27025", "Man City": "#6cabdd", "Man United": "#da291c", "Newcastle": "#241f20",
+      "Nottingham Forest": "#ed1c24", "Sheffield United": "#ee2737", "Spurs": "#132257", "West Ham": "#7a263a", "Wolves": "#fdb913",
+      // Championship
+      "Birmingham": "#0044b0", "Blackburn": "#0078bf", "Bristol City": "#da291c", "Cardiff": "#0070af", "Coventry": "#a1d1ec",
+      "Huddersfield": "#0e63b6", "Hull": "#f1b434", "Ipswich": "#0057b8", "Leeds": "#fff000", "Leicester": "#0053a0",
+      "Middlesbrough": "#e30613", "Millwall": "#00285e", "Norwich": "#fffc00", "Plymouth": "#003e29", "Preston": "#002b5c",
+      "QPR": "#1b3f94", "Rotherham": "#cc0000", "Sheffield Wednesday": "#1c2e5d", "Southampton": "#d71920", "Stoke": "#e03a3e",
+      "Sunderland": "#e00000", "Swansea": "#000000", "Watford": "#fbe122", "West Brom": "#122f67",
+      // League One
+      "Barnsley": "#aa0000", "Blackpool": "#ff6c00", "Bolton": "#152239", "Bristol Rovers": "#0066cc", "Burton Albion": "#ffd600",
+      "Cambridge United": "#ffb400", "Carlisle": "#0044b0", "Charlton": "#d00027", "Cheltenham": "#d40b2e", "Derby": "#4d4d4d",
+      "Exeter": "#d71920", "Fleetwood": "#e60000", "Leyton Orient": "#ed1c24", "Lincoln": "#e4002b", "Northampton": "#77131d",
+      "Oxford United": "#f9e300", "Peterborough": "#1b3f94", "Port Vale": "#ffcc00", "Portsmouth": "#002b5c", "Reading": "#0033a0",
+      "Shrewsbury": "#003087", "Stevenage": "#990000", "Wigan": "#004f9e", "Wycombe": "#102048",
+      // League Two
+      "Accrington": "#ff0000", "AFC Wimbledon": "#fcdc04", "Barrow": "#0072ce", "Bradford": "#781f1f", "Colchester": "#0033a0",
+      "Crawley": "#da291c", "Crewe": "#e30613", "Doncaster": "#d71920", "Forest Green": "#00ff00", "Gillingham": "#0033a0",
+      "Grimsby": "#000000", "Harrogate": "#ffe600", "Mansfield": "#ffcc00", "MK Dons": "#231f20", "Morecambe": "#c8102e",
+      "Newport County": "#ffb612", "Notts County": "#000000", "Salford": "#ed1c24", "Stockport": "#0044b0", "Sutton United": "#ffcc00",
+      "Swindon": "#da291c", "Tranmere": "#0033a0", "Walsall": "#e30613", "Wrexham": "#007848"
+    };
+
+    const root = document.documentElement;
+    const teamColor = teamColors[team];
+
+    if (teamColor) {
+      root.style.setProperty("--accent-color", teamColor);
+
+      // Auto-adjust text color for contrast
+      const r = parseInt(teamColor.substr(1,2), 16);
+      const g = parseInt(teamColor.substr(3,2), 16);
+      const b = parseInt(teamColor.substr(5,2), 16);
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+      const textColor = brightness < 140 ? "#ffffff" : "#000000";
+      root.style.setProperty("--text-color", textColor);
+    }
   </script>
 </body>
 </html>
+
 
