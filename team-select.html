@@ -125,16 +125,21 @@ const leagueTeams = {
   const container = document.getElementById('team-buttons');
   container.innerHTML = ""; // Clear any old buttons
 
-
 teams.forEach(team => {
-  const btn = document.createElement('button');
-  btn.textContent = team;
-  btn.onclick = () => {
-    localStorage.setItem('selectedTeam', team);
-    alert(`You selected ${team}`);
-  };
-  container.appendChild(btn);
+  const button = document.createElement("button");
+  button.textContent = team;
+
+  // ✅ Store selection and redirect on click
+  button.addEventListener("click", () => {
+    localStorage.setItem("selectedTeam", team);
+    localStorage.setItem("selectedLeague", selectedLeague);
+    window.location.href = "dashboard.html";
+  });
+
+  teamContainer.appendChild(button); // or whatever your container is
 });
+
+
 
 
 
