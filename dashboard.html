@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Club Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #1b263b;
+      color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
+      text-align: center;
+    }
+    h1, h2 {
+      margin-bottom: 20px;
+    }
+    .actions {
+      margin-top: 30px;
+    }
+    .actions button {
+      background-color: #415a77;
+      color: #fff;
+      padding: 14px 28px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .actions button:hover {
+      background-color: #778da9;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="welcome-title">Welcome!</h1>
+  <h2 id="league-title"></h2>
+  <div class="actions">
+    <button onclick="alert('Feature coming soon!')">📋 View Squad</button>
+    <button onclick="alert('Fixtures not available yet')">📅 View Fixtures</button>
+    <button onclick="alert('Season start feature coming soon!')">🚀 Start Season</button>
+  </div>
+
+  <script>
+    const team = localStorage.getItem('selectedTeam') || "Unknown Team";
+    const league = localStorage.getItem('selectedLeague') || "Unknown League";
+
+    document.getElementById("welcome-title").textContent = `Welcome to ${team}!`;
+    document.getElementById("league-title").textContent = `You're managing a club in ${league}.`;
+  </script>
+</body>
+</html>
