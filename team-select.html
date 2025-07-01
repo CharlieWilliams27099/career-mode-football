@@ -128,9 +128,7 @@ const leagueTeams = {
 teams.forEach(team => {
   const button = document.createElement("button");
   button.textContent = team;
-
-  // ✅ Store selection and redirect on click
-  button.addEventListener("click", () => {
+  
     localStorage.setItem("selectedTeam", team);
     localStorage.setItem("selectedLeague", selectedLeague);
     window.location.href = "dashboard.html";
