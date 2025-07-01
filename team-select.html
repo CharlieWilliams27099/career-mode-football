@@ -3,32 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <title>Select Your Team</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      background-color: #0b132b;
+      background: #0b132b;
       color: #f8f9fa;
       font-family: 'Segoe UI', sans-serif;
+      padding: 40px 20px;
       text-align: center;
-      padding: 50px;
     }
     h1 {
-      font-size: 2rem;
-      margin-bottom: 30px;
+      font-size: 2.2rem;
+      margin-bottom: 20px;
     }
     .teams {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 30px;
     }
     .teams button {
       background-color: #1c2541;
       border: none;
-      color: white;
-      padding: 16px;
-      border-radius: 8px;
-      font-size: 1rem;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 6px;
+      font-size: 0.95rem;
       cursor: pointer;
       transition: background 0.3s ease;
     }
@@ -39,34 +38,51 @@
 </head>
 <body>
   <h1 id="league-title">Loading teams...</h1>
-  <div class="teams"></div>
+  <div class="teams" id="team-container"></div>
 
   <script>
     const leagueTeams = {
-      "Premier League": ["Arsenal", "Chelsea", "Man City", "Man United", "Liverpool", "Spurs"],
-      "Championship": ["Leeds", "Ipswich", "Leicester", "Norwich", "Southampton", "Hull City"],
-      "League One": ["Port Vale", "Derby", "Bolton", "Barnsley", "Blackpool", "Reading"],
-      "League Two": ["Wrexham", "Stockport", "MK Dons", "Mansfield", "Crewe", "Tranmere"]
+      "Premier League": [
+        "Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton", "Burnley",
+        "Chelsea", "Crystal Palace", "Everton", "Fulham", "Liverpool", "Luton Town",
+        "Man City", "Man United", "Newcastle", "Nottingham Forest", "Sheffield United", "Spurs", "West Ham", "Wolves"
+      ],
+      "Championship": [
+        "Birmingham", "Blackburn", "Bristol City", "Cardiff", "Coventry", "Huddersfield",
+        "Hull", "Ipswich", "Leeds", "Leicester", "Middlesbrough", "Millwall",
+        "Norwich", "Plymouth", "Preston", "QPR", "Rotherham", "Sheffield Wednesday", "Southampton", "Stoke", "Sunderland", "Swansea", "Watford", "West Brom"
+      ],
+      "League One": [
+        "Barnsley", "Blackpool", "Bolton", "Bristol Rovers", "Burton Albion", "Cambridge United",
+        "Carlisle", "Charlton", "Cheltenham", "Derby", "Exeter", "Fleetwood",
+        "Leyton Orient", "Lincoln", "Northampton", "Oxford United", "Peterborough", "Port Vale",
+        "Portsmouth", "Reading", "Shrewsbury", "Stevenage", "Wigan", "Wycombe"
+      ],
+      "League Two": [
+        "Accrington", "AFC Wimbledon", "Barrow", "Bradford", "Colchester", "Crawley",
+        "Crewe", "Doncaster", "Forest Green", "Gillingham", "Grimsby", "Harrogate",
+        "Mansfield", "MK Dons", "Morecambe", "Newport County", "Notts County", "Salford",
+        "Stockport", "Sutton United", "Swindon", "Tranmere", "Walsall", "Wrexham"
+      ]
     };
 
     const selectedLeague = localStorage.getItem("selectedLeague");
-    const teams = leagueTeams[selectedLeague];
-    const container = document.querySelector(".teams");
-    const title = document.getElementById("league-title");
+    const leagueHeader = document.getElementById("league-title");
+    const teamContainer = document.getElementById("team-container");
 
-    if (!selectedLeague || !teams) {
-      title.textContent = "Oops! No league selected or no teams found.";
+    if (!selectedLeague || !leagueTeams[selectedLeague]) {
+      leagueHeader.textContent = "Oops! League not selected or not found.";
     } else {
-      title.textContent = `Choose a Club from ${selectedLeague}`;
-      teams.forEach(team => {
-        const button = document.createElement("button");
-        button.textContent = team;
-        button.addEventListener("click", () => {
+      leagueHeader.textContent = `Select a Club from the ${selectedLeague}`;
+      leagueTeams[selectedLeague].forEach(team => {
+        const btn = document.createElement("button");
+        btn.textContent = team;
+        btn.addEventListener("click", () => {
           localStorage.setItem("selectedTeam", team);
           localStorage.setItem("selectedLeague", selectedLeague);
           window.location.href = "dashboard.html";
         });
-        container.appendChild(button);
+        teamContainer.appendChild(btn);
       });
     }
   </script>
