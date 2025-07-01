@@ -5,145 +5,70 @@
   <title>Select Your Team</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);  /* ← Locks to exactly 4 columns */
-  gap: 12px;
-  padding: 10px;
-}
-
-.team-button {
-  padding: 8px;
-  font-size: 14px;
-  background-color: #f3f3f3;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  cursor: pointer;
-  text-align: left;
-}
-
-
-.team-button:hover {
-  background-color: #e1e1e1;
-}
-
     body {
-      background: linear-gradient(to bottom, #0d1b2a, #415a77);
-      font-family: 'Segoe UI', sans-serif;
+      background-color: #0b132b;
       color: #f8f9fa;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 50px;
-    }
-
-    h1, h2 {
-      margin-bottom: 20px;
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
+      padding: 50px;
     }
-
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+    .teams {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
     .teams button {
-      background-color: #1b263b;
-      color: #fff;
-      padding: 14px 28px;
-      margin: 10px;
+      background-color: #1c2541;
       border: none;
+      color: white;
+      padding: 16px;
       border-radius: 8px;
-      font-size: 1.1rem;
+      font-size: 1rem;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: background 0.3s ease;
     }
-
     .teams button:hover {
-      background-color: #415a77;
+      background-color: #3a506b;
     }
   </style>
 </head>
 <body>
-  <h1>Select Your Team</h1>
-  <h2 id="league-display"></h2>
-<div class="teams team-grid" id="team-buttons"></div>
+  <h1 id="league-title">Loading teams...</h1>
+  <div class="teams"></div>
 
-<script>
-  const selectedLeague = localStorage.getItem('selectedLeague') || 'Unknown League';
-  document.getElementById('league-display').innerText = "League: " + selectedLeague;
-<script>
-const leagueTeams = {
-  "Premier League": [
-    "Arsenal", "Aston Villa", "Bournemouth", "Brentford",
-    "Brighton", "Chelsea", "Crystal Palace", "Everton",
-    "Fulham", "Liverpool", "Luton Town", "Manchester City",
-    "Manchester United", "Newcastle United", "Nottingham Forest",
-    "Sheffield United", "Tottenham Hotspur", "West Ham United",
-    "Wolverhampton Wanderers", "Burnley"
-  ],
-  "Championship": [
-    "Leeds United", "Southampton", "Norwich City", "West Bromwich Albion",
-    "Watford", "Stoke City", "Bristol City", "Coventry City",
-    "Hull City", "Swansea City", "Middlesbrough", "Millwall",
-    "Birmingham City", "Preston North End", "Cardiff City", "QPR",
-    "Blackburn Rovers", "Huddersfield Town", "Rotherham United", "Plymouth Argyle"
-],
+  <script>
+    const leagueTeams = {
+      "Premier League": ["Arsenal", "Chelsea", "Man City", "Man United", "Liverpool", "Spurs"],
+      "Championship": ["Leeds", "Ipswich", "Leicester", "Norwich", "Southampton", "Hull City"],
+      "League One": ["Port Vale", "Derby", "Bolton", "Barnsley", "Blackpool", "Reading"],
+      "League Two": ["Wrexham", "Stockport", "MK Dons", "Mansfield", "Crewe", "Tranmere"]
+    };
 
- "League Two": [
-  "Wrexham", "Stockport County", "Mansfield Town", "Crewe Alexandra",
-  "MK Dons", "Barrow", "Crawley Town", "Gillingham",
-  "Doncaster Rovers", "Morecambe", "Tranmere Rovers", "Newport County",
-  "AFC Wimbledon", "Harrogate Town", "Salford City", "Colchester United",
-  "Grimsby Town", "Accrington Stanley", "Forest Green Rovers", "Sutton United"
-],
-"League One": [
-  "Barnsley",
-  "Blackpool",
-  "Bolton Wanderers",
-  "Bristol Rovers",
-  "Burton Albion",
-  "Cambridge United",
-  "Carlisle United",
-  "Charlton Athletic",
-  "Cheltenham Town",
-  "Derby County",
-  "Exeter City",
-  "Fleetwood Town",
-  "Leyton Orient",
-  "Lincoln City",
-  "Northampton Town",
-  "Oxford United",
-  "Peterborough United",
-  "Port Vale",
-  "Portsmouth",
-  "Reading",
-  "Shrewsbury Town",
-  "Stevenage",
-  "Wigan Athletic",
-  "Wycombe Wanderers"
-};
+    const selectedLeague = localStorage.getItem("selectedLeague");
+    const teams = leagueTeams[selectedLeague];
+    const container = document.querySelector(".teams");
+    const title = document.getElementById("league-title");
 
-
-
-  const teams = leagueTeams[selectedLeague] || ["Default FC"];
-  const container = document.getElementById('team-buttons');
-  container.innerHTML = ""; // Clear any old buttons
-
-teams.forEach(team => {
-  const button = document.createElement("button");
-  button.textContent = team;
-  
-    localStorage.setItem("selectedTeam", team);
-    localStorage.setItem("selectedLeague", selectedLeague);
-    window.location.href = "dashboard.html";
-  });
-
-  teamContainer.appendChild(button); // or whatever your container is
-});
-
-
-
-
-
-  
-
-</script>
-
+    if (!selectedLeague || !teams) {
+      title.textContent = "Oops! No league selected or no teams found.";
+    } else {
+      title.textContent = `Choose a Club from ${selectedLeague}`;
+      teams.forEach(team => {
+        const button = document.createElement("button");
+        button.textContent = team;
+        button.addEventListener("click", () => {
+          localStorage.setItem("selectedTeam", team);
+          localStorage.setItem("selectedLeague", selectedLeague);
+          window.location.href = "dashboard.html";
+        });
+        container.appendChild(button);
+      });
+    }
+  </script>
 </body>
 </html>
