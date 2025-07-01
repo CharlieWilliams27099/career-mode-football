@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +27,7 @@
     h1 {
       font-size: 2.5rem;
       margin-bottom: 20px;
-      color: var(--text-color);
+      text-align: center;
     }
 
     .actions {
@@ -52,6 +53,39 @@
       background-color: rgba(255,255,255,0.35);
     }
 
+    .squad {
+      margin-top: 40px;
+      max-width: 800px;
+      width: 100%;
+      padding: 20px;
+      display: none;
+    }
+
+    .player-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .player-card {
+      background-color: rgba(255, 255, 255, 0.12);
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .player-card .name {
+      font-weight: bold;
+      font-size: 1.05rem;
+    }
+
+    .player-card .meta {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+
     .footer {
       position: absolute;
       bottom: 10px;
@@ -65,9 +99,14 @@
   <h1 id="team-title">Loading club...</h1>
 
   <div class="actions">
-    <button onclick="alert('View Squad coming soon!')">📋 View Squad</button>
+    <button onclick="showSquad()">📋 View Squad</button>
     <button onclick="alert('Fixtures coming soon!')">📅 View Fixtures</button>
     <button onclick="alert('Season start coming soon!')">🚀 Start Season</button>
+  </div>
+
+  <div class="squad" id="squad-section">
+    <h2>Squad</h2>
+    <div id="squad-list" class="player-grid"></div>
   </div>
 
   <div class="footer">callyman sam</div>
@@ -76,31 +115,34 @@
     const team = localStorage.getItem("selectedTeam") || "Unknown Team";
     document.getElementById("team-title").textContent = `Welcome to ${team}!`;
 
-    // 92 team colors (sampled and matched as close as possible)
+    const squads = {
+      "Arsenal": [
+        { name: "Aaron Ramsdale", position: "GK", rating: 82 },
+        { name: "William Saliba", position: "CB", rating: 84 },
+        { name: "Martin Ødegaard", position: "CAM", rating: 87 },
+        { name: "Bukayo Saka", position: "RW", rating: 88 },
+        { name: "Declan Rice", position: "CDM", rating: 86 }
+      ],
+      "Wrexham": [
+        { name: "Ben Foster", position: "GK", rating: 77 },
+        { name: "Ben Tozer", position: "CB", rating: 72 },
+        { name: "Paul Mullin", position: "ST", rating: 75 },
+        { name: "Elliott Lee", position: "CAM", rating: 74 },
+        { name: "James McClean", position: "LM", rating: 73 }
+      ],
+      "Barnsley": [
+        { name: "Liam Roberts", position: "GK", rating: 74 },
+        { name: "Jordan Williams", position: "RB", rating: 71 },
+        { name: "Herbie Kane", position: "CM", rating: 72 },
+        { name: "James Norwood", position: "ST", rating: 70 },
+        { name: "Devante Cole", position: "ST", rating: 73 }
+      ]
+    };
+
     const teamColors = {
-      // Premier League
-      "Arsenal": "#a00000", "Aston Villa": "#670e36", "Bournemouth": "#da291c", "Brentford": "#e30613", "Brighton": "#0057b8",
-      "Burnley": "#6c1d45", "Chelsea": "#034694", "Crystal Palace": "#1b458f", "Everton": "#003399", "Fulham": "#000000",
-      "Liverpool": "#c8102e", "Luton Town": "#f27025", "Man City": "#6cabdd", "Man United": "#da291c", "Newcastle": "#241f20",
-      "Nottingham Forest": "#ed1c24", "Sheffield United": "#ee2737", "Spurs": "#132257", "West Ham": "#7a263a", "Wolves": "#fdb913",
-      // Championship
-      "Birmingham": "#0044b0", "Blackburn": "#0078bf", "Bristol City": "#da291c", "Cardiff": "#0070af", "Coventry": "#a1d1ec",
-      "Huddersfield": "#0e63b6", "Hull": "#f1b434", "Ipswich": "#0057b8", "Leeds": "#fff000", "Leicester": "#0053a0",
-      "Middlesbrough": "#e30613", "Millwall": "#00285e", "Norwich": "#fffc00", "Plymouth": "#003e29", "Preston": "#002b5c",
-      "QPR": "#1b3f94", "Rotherham": "#cc0000", "Sheffield Wednesday": "#1c2e5d", "Southampton": "#d71920", "Stoke": "#e03a3e",
-      "Sunderland": "#e00000", "Swansea": "#000000", "Watford": "#fbe122", "West Brom": "#122f67",
-      // League One
-      "Barnsley": "#aa0000", "Blackpool": "#ff6c00", "Bolton": "#152239", "Bristol Rovers": "#0066cc", "Burton Albion": "#ffd600",
-      "Cambridge United": "#ffb400", "Carlisle": "#0044b0", "Charlton": "#d00027", "Cheltenham": "#d40b2e", "Derby": "#4d4d4d",
-      "Exeter": "#d71920", "Fleetwood": "#e60000", "Leyton Orient": "#ed1c24", "Lincoln": "#e4002b", "Northampton": "#77131d",
-      "Oxford United": "#f9e300", "Peterborough": "#1b3f94", "Port Vale": "#ffcc00", "Portsmouth": "#002b5c", "Reading": "#0033a0",
-      "Shrewsbury": "#003087", "Stevenage": "#990000", "Wigan": "#004f9e", "Wycombe": "#102048",
-      // League Two
-      "Accrington": "#ff0000", "AFC Wimbledon": "#fcdc04", "Barrow": "#0072ce", "Bradford": "#781f1f", "Colchester": "#0033a0",
-      "Crawley": "#da291c", "Crewe": "#e30613", "Doncaster": "#d71920", "Forest Green": "#00ff00", "Gillingham": "#0033a0",
-      "Grimsby": "#000000", "Harrogate": "#ffe600", "Mansfield": "#ffcc00", "MK Dons": "#231f20", "Morecambe": "#c8102e",
-      "Newport County": "#ffb612", "Notts County": "#000000", "Salford": "#ed1c24", "Stockport": "#0044b0", "Sutton United": "#ffcc00",
-      "Swindon": "#da291c", "Tranmere": "#0033a0", "Walsall": "#e30613", "Wrexham": "#007848"
+      "Arsenal": "#a00000",
+      "Wrexham": "#007848",
+      "Barnsley": "#aa0000"
     };
 
     const root = document.documentElement;
@@ -108,18 +150,46 @@
 
     if (teamColor) {
       root.style.setProperty("--accent-color", teamColor);
-
-      // Auto-adjust text color for contrast
       const r = parseInt(teamColor.substr(1,2), 16);
       const g = parseInt(teamColor.substr(3,2), 16);
       const b = parseInt(teamColor.substr(5,2), 16);
       const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-
       const textColor = brightness < 140 ? "#ffffff" : "#000000";
       root.style.setProperty("--text-color", textColor);
+    }
+
+    function showSquad() {
+      const container = document.getElementById("squad-list");
+      const section = document.getElementById("squad-section");
+      container.innerHTML = "";
+
+      const teamSquad = squads[team];
+      if (teamSquad) {
+        teamSquad.forEach(player => {
+          const card = document.createElement("div");
+          card.className = "player-card";
+
+          const name = document.createElement("div");
+          name.className = "name";
+          name.textContent = player.name;
+
+          const meta = document.createElement("div");
+          meta.className = "meta";
+          meta.textContent = `${player.position} • Rating: ${player.rating}`;
+
+          card.appendChild(name);
+          card.appendChild(meta);
+          container.appendChild(card);
+        });
+        section.style.display = "block";
+      } else {
+        container.innerHTML = "<div>No squad data for this team yet.</div>";
+        section.style.display = "block";
+      }
     }
   </script>
 </body>
 </html>
+
 
 
