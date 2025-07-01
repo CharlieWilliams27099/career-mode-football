@@ -8,11 +8,11 @@
       background: #0b132b;
       color: #f8f9fa;
       font-family: 'Segoe UI', sans-serif;
-      padding: 40px 20px;
       text-align: center;
+      padding: 50px 20px;
     }
     h1 {
-      font-size: 2.2rem;
+      font-size: 2rem;
       margin-bottom: 20px;
     }
     .teams {
@@ -24,10 +24,10 @@
     .teams button {
       background-color: #1c2541;
       border: none;
-      color: #fff;
+      color: white;
       padding: 12px 18px;
-      border-radius: 6px;
-      font-size: 0.95rem;
+      border-radius: 8px;
+      font-size: 1rem;
       cursor: pointer;
       transition: background 0.3s ease;
     }
@@ -43,26 +43,23 @@
   <script>
     const leagueTeams = {
       "Premier League": [
-        "Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton", "Burnley",
-        "Chelsea", "Crystal Palace", "Everton", "Fulham", "Liverpool", "Luton Town",
-        "Man City", "Man United", "Newcastle", "Nottingham Forest", "Sheffield United", "Spurs", "West Ham", "Wolves"
+        "Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton", "Burnley", "Chelsea", "Crystal Palace", "Everton", "Fulham",
+        "Liverpool", "Luton Town", "Man City", "Man United", "Newcastle", "Nottingham Forest", "Sheffield United", "Spurs", "West Ham", "Wolves"
       ],
       "Championship": [
-        "Birmingham", "Blackburn", "Bristol City", "Cardiff", "Coventry", "Huddersfield",
-        "Hull", "Ipswich", "Leeds", "Leicester", "Middlesbrough", "Millwall",
-        "Norwich", "Plymouth", "Preston", "QPR", "Rotherham", "Sheffield Wednesday", "Southampton", "Stoke", "Sunderland", "Swansea", "Watford", "West Brom"
+        "Birmingham", "Blackburn", "Bristol City", "Cardiff", "Coventry", "Huddersfield", "Hull", "Ipswich", "Leeds", "Leicester",
+        "Middlesbrough", "Millwall", "Norwich", "Plymouth", "Preston", "QPR", "Rotherham", "Sheffield Wednesday", "Southampton", "Stoke",
+        "Sunderland", "Swansea", "Watford", "West Brom"
       ],
       "League One": [
-        "Barnsley", "Blackpool", "Bolton", "Bristol Rovers", "Burton Albion", "Cambridge United",
-        "Carlisle", "Charlton", "Cheltenham", "Derby", "Exeter", "Fleetwood",
-        "Leyton Orient", "Lincoln", "Northampton", "Oxford United", "Peterborough", "Port Vale",
-        "Portsmouth", "Reading", "Shrewsbury", "Stevenage", "Wigan", "Wycombe"
+        "Barnsley", "Blackpool", "Bolton", "Bristol Rovers", "Burton Albion", "Cambridge United", "Carlisle", "Charlton", "Cheltenham",
+        "Derby", "Exeter", "Fleetwood", "Leyton Orient", "Lincoln", "Northampton", "Oxford United", "Peterborough", "Port Vale", "Portsmouth",
+        "Reading", "Shrewsbury", "Stevenage", "Wigan", "Wycombe"
       ],
       "League Two": [
-        "Accrington", "AFC Wimbledon", "Barrow", "Bradford", "Colchester", "Crawley",
-        "Crewe", "Doncaster", "Forest Green", "Gillingham", "Grimsby", "Harrogate",
-        "Mansfield", "MK Dons", "Morecambe", "Newport County", "Notts County", "Salford",
-        "Stockport", "Sutton United", "Swindon", "Tranmere", "Walsall", "Wrexham"
+        "Accrington", "AFC Wimbledon", "Barrow", "Bradford", "Colchester", "Crawley", "Crewe", "Doncaster", "Forest Green", "Gillingham",
+        "Grimsby", "Harrogate", "Mansfield", "MK Dons", "Morecambe", "Newport County", "Notts County", "Salford", "Stockport", "Sutton United",
+        "Swindon", "Tranmere", "Walsall", "Wrexham"
       ]
     };
 
@@ -75,16 +72,17 @@
     } else {
       leagueHeader.textContent = `Select a Club from the ${selectedLeague}`;
       leagueTeams[selectedLeague].forEach(team => {
-        const btn = document.createElement("button");
-        btn.textContent = team;
-        btn.addEventListener("click", () => {
+        const button = document.createElement("button");
+        button.textContent = team;
+        button.addEventListener("click", () => {
           localStorage.setItem("selectedTeam", team);
           localStorage.setItem("selectedLeague", selectedLeague);
           window.location.href = "dashboard.html";
         });
-        teamContainer.appendChild(btn);
+        teamContainer.appendChild(button);
       });
     }
   </script>
 </body>
 </html>
+
