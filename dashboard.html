@@ -188,6 +188,398 @@
       }
     }
   </script>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Club Dashboard</title>
+  <style>
+    :root {
+      --accent-color: #d4af37;
+      --text-color: #ffffff;
+    }
+
+    body {
+      background-color: var(--accent-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      position: relative;
+      transition: background 0.3s ease;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .actions {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .actions button {
+      padding: 14px 24px;
+      font-size: 1.1rem;
+      background-color: rgba(255,255,255,0.2);
+      color: var(--text-color);
+      border: 2px solid #ffffff66;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .actions button:hover {
+      background-color: rgba(255,255,255,0.35);
+    }
+
+    .squad {
+      margin-top: 40px;
+      max-width: 800px;
+      width: 100%;
+      padding: 20px;
+      display: none;
+    }
+
+    .player-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .player-card {
+      background-color: rgba(255, 255, 255, 0.12);
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .player-card .name {
+      font-weight: bold;
+      font-size: 1.05rem;
+    }
+
+    .player-card .meta {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      font-size: 10px;
+      color: #f0f0f0aa;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="team-title">Loading club...</h1>
+
+  <div class="actions">
+    <button onclick="showSquad()">📋 View Squad</button>
+    <button onclick="alert('Fixtures coming soon!')">📅 View Fixtures</button>
+    <button onclick="alert('Season start coming soon!')">🚀 Start Season</button>
+  </div>
+
+  <div class="squad" id="squad-section">
+    <h2>Squad</h2>
+    <div id="squad-list" class="player-grid"></div>
+  </div>
+
+  <div class="footer">callyman sam</div>
+
+  <script>
+    const team = localStorage.getItem("selectedTeam") || "Unknown Team";
+    document.getElementById("team-title").textContent = `Welcome to ${team}!`;
+
+    const squads = {
+      "Arsenal": [
+        { name: "Aaron Ramsdale", position: "GK", rating: 82 },
+        { name: "William Saliba", position: "CB", rating: 84 },
+        { name: "Martin Ødegaard", position: "CAM", rating: 87 },
+        { name: "Bukayo Saka", position: "RW", rating: 88 },
+        { name: "Declan Rice", position: "CDM", rating: 86 }
+      ],
+      "Wrexham": [
+        { name: "Ben Foster", position: "GK", rating: 77 },
+        { name: "Ben Tozer", position: "CB", rating: 72 },
+        { name: "Paul Mullin", position: "ST", rating: 75 },
+        { name: "Elliott Lee", position: "CAM", rating: 74 },
+        { name: "James McClean", position: "LM", rating: 73 }
+      ],
+      "Barnsley": [
+        { name: "Liam Roberts", position: "GK", rating: 74 },
+        { name: "Jordan Williams", position: "RB", rating: 71 },
+        { name: "Herbie Kane", position: "CM", rating: 72 },
+        { name: "James Norwood", position: "ST", rating: 70 },
+        { name: "Devante Cole", position: "ST", rating: 73 }
+      ]
+    };
+
+    const teamColors = {
+      "Arsenal": "#a00000",
+      "Wrexham": "#007848",
+      "Barnsley": "#aa0000"
+    };
+
+    const root = document.documentElement;
+    const teamColor = teamColors[team];
+
+    if (teamColor) {
+      root.style.setProperty("--accent-color", teamColor);
+      const r = parseInt(teamColor.substr(1,2), 16);
+      const g = parseInt(teamColor.substr(3,2), 16);
+      const b = parseInt(teamColor.substr(5,2), 16);
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      const textColor = brightness < 140 ? "#ffffff" : "#000000";
+      root.style.setProperty("--text-color", textColor);
+    }
+
+    function showSquad() {
+      const container = document.getElementById("squad-list");
+      const section = document.getElementById("squad-section");
+      container.innerHTML = "";
+
+      const teamSquad = squads[team];
+      if (teamSquad) {
+        teamSquad.forEach(player => {
+          const card = document.createElement("div");
+          card.className = "player-card";
+
+          const name = document.createElement("div");
+          name.className = "name";
+          name.textContent = player.name;
+
+          const meta = document.createElement("div");
+          meta.className = "meta";
+          meta.textContent = `${player.position} • Rating: ${player.rating}`;
+
+          card.appendChild(name);
+          card.appendChild(meta);
+          container.appendChild(card);
+        });
+        section.style.display = "block";
+      } else {
+        container.innerHTML = "<div>No squad data for this team yet.</div>";
+        section.style.display = "block";
+      }
+    }
+  </script>
+<script>
+
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Club Dashboard</title>
+  <style>
+    :root {
+      --accent-color: #d4af37;
+      --text-color: #ffffff;
+    }
+
+    body {
+      background-color: var(--accent-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      position: relative;
+      transition: background 0.3s ease;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .actions {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .actions button {
+      padding: 14px 24px;
+      font-size: 1.1rem;
+      background-color: rgba(255,255,255,0.2);
+      color: var(--text-color);
+      border: 2px solid #ffffff66;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .actions button:hover {
+      background-color: rgba(255,255,255,0.35);
+    }
+
+    .squad {
+      margin-top: 40px;
+      max-width: 800px;
+      width: 100%;
+      padding: 20px;
+      display: none;
+    }
+
+    .player-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .player-card {
+      background-color: rgba(255, 255, 255, 0.12);
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .player-card .name {
+      font-weight: bold;
+      font-size: 1.05rem;
+    }
+
+    .player-card .meta {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      font-size: 10px;
+      color: #f0f0f0aa;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="team-title">Loading club...</h1>
+
+  <div class="actions">
+    <button onclick="showSquad()">📋 View Squad</button>
+    <button onclick="alert('Fixtures coming soon!')">📅 View Fixtures</button>
+    <button onclick="alert('Season start coming soon!')">🚀 Start Season</button>
+  </div>
+
+  <div class="squad" id="squad-section">
+    <h2>Squad</h2>
+    <div id="squad-list" class="player-grid"></div>
+  </div>
+
+  <div class="footer">callyman sam</div>
+
+  <script>
+    const team = localStorage.getItem("selectedTeam") || "Unknown Team";
+    document.getElementById("team-title").textContent = `Welcome to ${team}!`;
+
+    const squads = {
+      "Arsenal": [
+        { name: "David Raya", position: "GK", rating: 83 },
+        { name: "William Saliba", position: "CB", rating: 84 },
+        { name: "Gabriel Magalhães", position: "CB", rating: 83 },
+        { name: "Declan Rice", position: "CDM", rating: 86 },
+        { name: "Martin Ødegaard", position: "CAM", rating: 87 },
+        { name: "Bukayo Saka", position: "RW", rating: 88 },
+        { name: "Gabriel Jesus", position: "ST", rating: 84 }
+      ],
+      "Chelsea": [
+        { name: "Robert Sánchez", position: "GK", rating: 79 },
+        { name: "Reece James", position: "RB", rating: 84 },
+        { name: "Thiago Silva", position: "CB", rating: 82 },
+        { name: "Enzo Fernández", position: "CM", rating: 83 },
+        { name: "Raheem Sterling", position: "LW", rating: 83 },
+        { name: "Cole Palmer", position: "RW", rating: 80 },
+        { name: "Christopher Nkunku", position: "CF", rating: 85 }
+      ],
+      "Manchester City": [
+        { name: "Ederson", position: "GK", rating: 88 },
+        { name: "Rúben Dias", position: "CB", rating: 89 },
+        { name: "Kevin De Bruyne", position: "CAM", rating: 91 },
+        { name: "Rodri", position: "CDM", rating: 89 },
+        { name: "Phil Foden", position: "LW", rating: 87 },
+        { name: "Bernardo Silva", position: "CM", rating: 87 },
+        { name: "Erling Haaland", position: "ST", rating: 91 }
+      ]
+    };
+
+    const teamColors = {
+      "Arsenal": "#a00000",
+      "Chelsea": "#034694",
+      "Manchester City": "#6cabdd"
+    };
+
+    const root = document.documentElement;
+    const teamColor = teamColors[team];
+
+    if (teamColor) {
+      root.style.setProperty("--accent-color", teamColor);
+      const r = parseInt(teamColor.substr(1,2), 16);
+      const g = parseInt(teamColor.substr(3,2), 16);
+      const b = parseInt(teamColor.substr(5,2), 16);
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      const textColor = brightness < 140 ? "#ffffff" : "#000000";
+      root.style.setProperty("--text-color", textColor);
+    }
+
+    function showSquad() {
+      const container = document.getElementById("squad-list");
+      const section = document.getElementById("squad-section");
+      container.innerHTML = "";
+
+      const teamSquad = squads[team];
+      if (teamSquad) {
+        teamSquad.forEach(player => {
+          const card = document.createElement("div");
+          card.className = "player-card";
+
+          const name = document.createElement("div");
+          name.className = "name";
+          name.textContent = player.name;
+
+          const meta = document.createElement("div");
+          meta.className = "meta";
+          meta.textContent = `${player.position} • Rating: ${player.rating}`;
+
+          card.appendChild(name);
+          card.appendChild(meta);
+          container.appendChild(card);
+        });
+        section.style.display = "block";
+      } else {
+        container.innerHTML = "<div>No squad data for this team yet.</div>";
+        section.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
+
 </body>
 </html>
 
