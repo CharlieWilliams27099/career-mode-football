@@ -440,16 +440,20 @@
       document.documentElement.style.setProperty("--text-color", text);
     }
 
-    function show(players, id) {
-      const box = document.getElementById(id);
-      box.innerHTML = "";
-      players.forEach(p => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<div class="name">${p.name}</div><div class="meta">${p.position} • Rating: ${p.rating}</div>`;
-        box.appendChild(card);
-      });
-    }
+ function show(players, id) {
+  const box = document.getElementById(id);
+  box.innerHTML = "";
+  players.forEach((p, index) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.id = `${id}-player-${index}`;
+    card.draggable = true;
+    card.ondragstart = drag;
+    card.innerHTML = `<div class="name">${p.name}</div><div class="meta">${p.position} • Rating: ${p.rating}</div>`;
+    box.appendChild(card);
+  });
+}
+
 
     if (data) {
       show(data.starters, "starting");
@@ -459,5 +463,29 @@
       document.getElementById("starting").innerHTML = "<div>No lineup found for this club.</div>";
     }
   </script>
+  <script>
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+
+  function drop(ev) {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData("text");
+    const dragged = document.getElementById(data);
+    ev.target.closest('.player-grid').appendChild(dragged);
+  }
+
+  function saveLineup() {
+    const starters = Array.from(document.getElementById("starting").children).map(p => p.textContent);
+    const subs = Array.from(document.getElementById("subs").children).map(p => p.textContent);
+    localStorage.setItem("customLineup", JSON.stringify({ starters, subs }));
+    alert("Lineup saved!");
+  }
+</script>
+
 </body>
 </html>
