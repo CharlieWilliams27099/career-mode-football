@@ -453,8 +453,8 @@
     box.appendChild(card);
   });
 }
-
-
+const team = localstorage.getitem("selectedTeam") "unknown;
+const data = squads[team];
     if (data) {
       show(data.starters, "starting");
       show(data.subs, "subs");
