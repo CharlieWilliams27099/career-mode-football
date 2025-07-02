@@ -453,7 +453,8 @@
     box.appendChild(card);
   });
 }
-const team = localstorage.getitem("selectedTeam") "unknown;
+const team = localStorage.getItem("selectedTeam") || "Unknown";
+
 const data = squads[team];
     if (data) {
       show(data.starters, "starting");
