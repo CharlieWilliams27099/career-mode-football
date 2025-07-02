@@ -78,11 +78,14 @@
 <body>
   <h1 id="club-name">Loading...</h1>
 
-  <h2>Starting 11</h2>
-  <div class="player-grid" id="starting"></div>
+<h2>Starting 11</h2>
+<div id="starting" class="player-grid" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 
-  <h2>Substitutes</h2>
-  <div class="player-grid" id="subs"></div>
+<h2>Substitutes</h2>
+<div id="subs" class="player-grid" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+<button onclick="saveLineup()">💾 Save Lineup</button>
+
 
   <button class="back-button" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
 
