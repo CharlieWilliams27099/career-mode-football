@@ -454,14 +454,15 @@
   });
 }
 const team = localStorage.getItem("selectedTeam") || "Unknown";
-
 const data = squads[team];
+    
     if (data) {
+      document.getElementById("club-name").textContent = '${team} Lineup
       show(data.starters, "starting");
       show(data.subs, "subs");
       setTheme(data.color);
     } else {
-      document.getElementById("starting").innerHTML = "<div>No lineup found for this club.</div>";
+      document.getElementById("club-name").textContent = "no data for this team";
     }
   </script>
   <script>
