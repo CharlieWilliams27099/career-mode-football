@@ -885,4 +885,125 @@ const squads = {
       { name: "Jack Robinson", position: "CB", rating: 70 },
       { name: "Adam Davies", position: "GK", rating: 70 },
 
-      
+        SheffieldWednesday: {
+    lineup: {
+      LW: { name: "Josh Windass", position: "LW", rating: 70 },
+      ST: { name: "Michael Smith", position: "ST", rating: 71 },
+      RW: { name: "Mallik Wilks", position: "RW", rating: 68 },
+      LCM: { name: "Barry Bannan", position: "LCM", rating: 73 },
+      CM: { name: "George Byers", position: "CM", rating: 70 },
+      RCM: { name: "Will Vaulks", position: "RCM", rating: 70 },
+      LB: { name: "Reece James", position: "LB", rating: 68 },
+      LCB: { name: "Dominic Iorfa", position: "LCB", rating: 70 },
+      RCB: { name: "Akin Famewo", position: "RCB", rating: 69 },
+      RB: { name: "Liam Palmer", position: "RB", rating: 70 },
+      GK: { name: "Cameron Dawson", position: "GK", rating: 70 }
+    },
+    subs: [
+      { name: "Callum Paterson", position: "ST", rating: 69 },
+      { name: "Lee Gregory", position: "ST", rating: 68 },
+      { name: "Juan Delgado", position: "RW", rating: 68 },
+      { name: "Ihiekwe Michael", position: "CB", rating: 68 },
+      { name: "Di'Shon Bernard", position: "CB", rating: 67 },
+      { name: "Devis Vásquez", position: "GK", rating: 67 },
+      { name: "Marvin Johnson", position: "LW", rating: 68 }
+    ]
+  },
+
+  Southampton: {
+    lineup: {
+      LW: { name: "Samuel Edozie", position: "LW", rating: 71 },
+      ST: { name: "Adam Armstrong", position: "ST", rating: 75 },
+      RW: { name: "Ryan Fraser", position: "RW", rating: 73 },
+      LCM: { name: "Will Smallbone", position: "LCM", rating: 71 },
+      CM: { name: "Flynn Downes", position: "CM", rating: 73 },
+      RCM: { name: "Shea Charles", position: "RCM", rating: 72 },
+      LB: { name: "Kyle Walker-Peters", position: "LB", rating: 75 },
+      LCB: { name: "Taylor Harwood-Bellis", position: "LCB", rating: 74 },
+      RCB: { name: "Jan Bednarek", position: "RCB", rating: 75 },
+      RB: { name: "Yukinari Sugawara", position: "RB", rating: 72 },
+      GK: { name: "Gavin Bazunu", position: "GK", rating: 72 }
+    },
+    subs: [
+      { name: "Paul Onuachu", position: "ST", rating: 74 },
+      { name: "Joe Aribo", position: "CM", rating: 71 },
+      { name: "James Bree", position: "RB", rating: 70 },
+      { name: "Juan Larios", position: "LB", rating: 68 },
+      { name: "Ross Stewart", position: "ST", rating: 70 },
+      { name: "Mateus Fernandes", position: "CM", rating: 69 },
+      { name: "Alex McCarthy", position: "GK", rating: 71 }
+    ]
+  },
+
+  StokeCity: {
+    lineup: {
+      LW: { name: "André Vidigal", position: "LW", rating: 70 },
+      ST: { name: "Ryan Mmaee", position: "ST", rating: 71 },
+      RW: { name: "Million Manhoef", position: "RW", rating: 71 },
+      LCM: { name: "Wouter Burger", position: "LCM", rating: 72 },
+      CM: { name: "Ben Pearson", position: "CM", rating: 71 },
+      RCM: { name: "Bae Jun-ho", position: "RCM", rating: 70 },
+      LB: { name: "Enda Stevens", position: "LB", rating: 70 },
+      LCB: { name: "Ben Wilmot", position: "LCB", rating: 72 },
+      RCB: { name: "Ashley Phillips", position: "RCB", rating: 69 },
+      RB: { name: "Ki-Jana Hoever", position: "RB", rating: 71 },
+      GK: { name: "Jack Bonham", position: "GK", rating: 70 }
+    },
+    subs: [
+      { name: "Lewis Baker", position: "CM", rating: 71 },
+      { name: "Daniel Johnson", position: "CM", rating: 70 },
+      { name: "Josh Laurent", position: "CM", rating: 70 },
+      { name: "Jordan Thompson", position: "CDM", rating: 69 },
+      { name: "Tom Sparrow", position: "RB", rating: 68 },
+      { name: "Frank Fielding", position: "GK", rating: 67 },
+      { name: "Lynden Gooch", position: "LB", rating: 68 }
+    ]
+  },
+
+  SwanseaCity: {
+    lineup: {
+      LW: { name: "Josh Ginnelly", position: "LW", rating: 69 },
+      ST: { name: "Žan Vipotnik", position: "ST", rating: 70 },
+      RW: { name: "Ronald", position: "RW", rating: 69 },
+      LCM: { name: "Jay Fulton", position: "LCM", rating: 70 },
+      CM: { name: "Joe Allen", position: "CM", rating: 71 },
+      RCM: { name: "Gonçalo Franco", position: "RCM", rating: 70 },
+      LB: { name: "Josh Tymon", position: "LB", rating: 70 },
+      LCB: { name: "Ben Cabango", position: "LCB", rating: 71 },
+      RCB: { name: "Harry Darling", position: "RCB", rating: 70 },
+      RB: { name: "Josh Key", position: "RB", rating: 69 },
+      GK: { name: "Carl Rushworth", position: "GK", rating: 70 }
+    },
+    subs: [
+      { name: "Oliver Cooper", position: "CAM", rating: 69 },
+      { name: "Eom Ji-sung", position: "RW", rating: 68 },
+      { name: "Nathan Wood", position: "CB", rating: 69 },
+      { name: "Jamie Paterson", position: "LW", rating: 68 },
+      { name: "Liam Cullen", position: "ST", rating: 69 },
+      { name: "Jay Fulton", position: "CM", rating: 70 },
+      { name: "Andy Fisher", position: "GK", rating: 69 }
+    ]
+  },
+
+  Watford: {
+    lineup: {
+      LW: { name: "Tom Ince", position: "LW", rating: 71 },
+      ST: { name: "Vakoun Bayo", position: "ST", rating: 70 },
+      RW: { name: "Rocco Vata", position: "RW", rating: 69 },
+      LCM: { name: "Imrân Louza", position: "LCM", rating: 72 },
+      CM: { name: "Moussa Sissoko", position: "CM", rating: 71 },
+      RCM: { name: "Giorgi Chakvetadze", position: "RCM", rating: 70 },
+      LB: { name: "Caleb Wiley", position: "LB", rating: 70 },
+      LCB: { name: "Francisco Sierralta", position: "LCB", rating: 71 },
+      RCB: { name: "Mattie Pollock", position: "RCB", rating: 70 },
+      RB: { name: "Jeremy Ngakia", position: "RB", rating: 69 },
+      GK: { name: "Daniel Bachmann", position: "GK", rating: 72 }
+    },
+    subs: [
+      { name: "Egil Selvik", position: "GK", rating: 70 },
+      { name: "Edo Kayembe", position: "CM", rating: 70 },
+      { name: "Jamal Lewis", position: "LB", rating: 70 },
+      { name: "Ryan Andrews", position: "RB", rating: 69 },
+      { name: "Mileta Rajovic", position: "ST", rating: 69 },
+      { name: "Yaser Asprilla", position: "CAM", rating: 70 },
+      {
