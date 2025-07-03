@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,6 +50,18 @@
 
     .card {
       cursor: grab;
+      background: #fff3;
+      padding: 6px;
+      border-radius: 6px;
+    }
+
+    .name {
+      font-weight: bold;
+    }
+
+    .meta {
+      font-size: 13px;
+      opacity: 0.9;
     }
 
     #subs {
@@ -119,22 +132,22 @@
       RW: { name: "Bukayo Saka", position: "RW", rating: 86 },
       LCM: { name: "Declan Rice", position: "LCM", rating: 87 },
       CM: { name: "Martin Ødegaard", position: "CM", rating: 87 },
-      RCM: { name: "Thomas Partey", position: "RCM", rating: 83 },
+      RCM: { name: "Jorginho", position: "RCM", rating: 81 },
       LB: { name: "Oleksandr Zinchenko", position: "LB", rating: 80 },
       LCB: { name: "Gabriel Magalhães", position: "LCB", rating: 83 },
       RCB: { name: "William Saliba", position: "RCB", rating: 84 },
       RB: { name: "Ben White", position: "RB", rating: 81 },
-      GK: { name: "David Raya", position: "GK", rating: 82 }
+      GK: { name: "Eddie Nketiah", position: "GK", rating: 77 }
     };
 
     const subsList = [
-      { name: "Aaron Ramsdale", position: "GK", rating: 81 },
       { name: "Jurrien Timber", position: "RB", rating: 79 },
       { name: "Takehiro Tomiyasu", position: "CB", rating: 80 },
-      { name: "Jorginho", position: "CM", rating: 81 },
       { name: "Fabio Vieira", position: "CAM", rating: 77 },
+      { name: "David Raya", position: "GK", rating: 82 },
       { name: "Leandro Trossard", position: "LW", rating: 82 },
-      { name: "Eddie Nketiah", position: "ST", rating: 77 }
+      { name: "Aaron Ramsdale", position: "GK", rating: 81 },
+      { name: "Thomas Partey", position: "RCM", rating: 83 }
     ];
 
     function allowDrop(ev) {
@@ -152,10 +165,17 @@
       const target = ev.target.closest(".position");
       if (!dragged || !target || !editing) return;
 
-      const [name, meta] = dragged.textContent.split("•");
-      const rating = parseInt(meta.trim());
+      const nameEl = dragged.querySelector(".name");
+      const metaEl = dragged.querySelector(".meta");
+
+      if (!nameEl || !metaEl) return;
+
+      const playerName = nameEl.textContent.trim();
+      const [positionText, ratingText] = metaEl.textContent.split("•").map(s => s.trim());
+      const rating = parseInt(ratingText);
+
       const playerObj = {
-        name: name.trim(),
+        name: playerName,
         position: target.id,
         rating
       };
@@ -182,7 +202,10 @@
       if (player) {
         const div = document.createElement("div");
         div.className = "card";
-        div.innerHTML = `<strong>${player.name}</strong><br>${player.position} • ${player.rating}`;
+        div.innerHTML = `
+          <div class="name">${player.name}</div>
+          <div class="meta">${player.position} • ${player.rating}</div>
+        `;
         if (editing) {
           div.id = "player-" + position;
           div.draggable = true;
@@ -199,7 +222,10 @@
       subsList.forEach((p, i) => {
         const div = document.createElement("div");
         div.className = "card";
-        div.innerHTML = `<strong>${p.name}</strong><br>${p.position} • ${p.rating}`;
+        div.innerHTML = `
+          <div class="name">${p.name}</div>
+          <div class="meta">${p.position} • ${p.rating}</div>
+        `;
         if (editing) {
           div.id = "sub-" + i;
           div.draggable = true;
@@ -209,18 +235,3 @@
       });
     }
 
-    function saveLineup() {
-      localStorage.setItem("customFormation", JSON.stringify(lineup));
-      alert("✅ Lineup saved!");
-    }
-
-    document.getElementById("toggleEdit").onclick = () => {
-      editing = !editing;
-      document.getElementById("toggleEdit").textContent = editing ? "✅ Done Editing" : "✏️ Change Lineup";
-      renderAll();
-    };
-
-    renderAll();
-  </script>
-</body>
-</html>
