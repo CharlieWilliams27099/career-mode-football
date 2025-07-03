@@ -20,7 +20,6 @@
 
     h1 {
       color: var(--accent-color);
-      margin-bottom: 10px;
     }
 
     #formation {
@@ -81,7 +80,7 @@
   </style>
 </head>
 <body>
-  <h1 id="club-name">Loading...</h1>
+  <h1 id="club-name">Arsenal Lineup</h1>
 
   <button id="toggleEdit">✏️ Change Lineup</button>
   <button onclick="saveLineup()">💾 Save Lineup</button>
@@ -161,24 +160,18 @@
         rating
       };
 
-      // Remove from pitch
       if (draggedId.startsWith("player-")) {
         const from = draggedId.replace("player-", "");
         delete lineup[from];
-      }
-
-      // Remove from subs
-      else if (draggedId.startsWith("sub-")) {
+      } else if (draggedId.startsWith("sub-")) {
         const index = parseInt(draggedId.split("-")[1]);
         subsList.splice(index, 1);
       }
 
-      // Push old player (if any) into subs
       if (lineup[target.id]) {
         subsList.push(lineup[target.id]);
       }
 
-      // Assign new player to position
       lineup[target.id] = playerObj;
       renderAll();
     }
@@ -223,5 +216,11 @@
 
     document.getElementById("toggleEdit").onclick = () => {
       editing = !editing;
-      document.getElementById("toggleEdit").textContent = editing
-        ? "✅ Done Editing"
+      document.getElementById("toggleEdit").textContent = editing ? "✅ Done Editing" : "✏️ Change Lineup";
+      renderAll();
+    };
+
+    renderAll();
+  </script>
+</body>
+</html>
