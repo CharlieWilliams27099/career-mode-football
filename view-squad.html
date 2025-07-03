@@ -1,4 +1,4 @@
-<!-- Your upgraded view-squad.html file -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -150,7 +150,7 @@
         div.className = "card";
         div.innerHTML = `<strong>${data.name}</strong><br>${data.position} • ${data.rating}`;
         if (editing.enabled) {
-          div.id = id;
+          div.id = 'player-${position}';
           div.draggable = true;
           div.ondragstart = drag;
         }
