@@ -64,10 +64,6 @@
       margin-top: 30px;
     }
 
-    .bench .card {
-      background: #333;
-    }
-
     button {
       background: var(--accent-color);
       color: #fff;
@@ -92,31 +88,31 @@
 
   <div id="formation">
     <div class="row forwards">
-      <div class="position" id="LW"></div>
-      <div class="position" id="ST"></div>
-      <div class="position" id="RW"></div>
+      <div class="position" id="LW" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      <div class="position" id="ST" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      <div class="position" id="RW" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
     </div>
     <div class="row mids">
-      <div class="position" id="LCM"></div>
-      <div class="position" id="CM"></div>
-      <div class="position" id="RCM"></div>
+      <div class="position" id="LCM" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      <div class="position" id="CM" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      <div class="position" id="RCM" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
     </div>
     <div class="row defense">
-      <div class="position" id="LB"></div>
-      <div class="position" id="LCB"></div>
-      <div class="position" id="RCB"></div>
-      <div class="position" id="RB"></div>
+      <div class="position" id="LB" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      <div class="position" id="LCB" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      <div class="position" id="RCB" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      <div class="position" id="RB" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
     </div>
     <div class="row gk">
-      <div class="position" id="GK"></div>
+      <div class="position" id="GK" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
     </div>
   </div>
 
   <h2>Substitutes</h2>
-  <div id="subs" class="bench" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+  <div id="subs"></div>
 
   <script>
-    const editing = { enabled: false };
+    let editing = false;
 
     const lineup = {
       LW: { name: "Gabriel Martinelli", position: "LW", rating: 84 },
@@ -142,15 +138,60 @@
       { name: "Eddie Nketiah", position: "ST", rating: 77 }
     ];
 
-    function renderPlayer(data, id) {
-      const slot = document.getElementById(id);
+    function allowDrop(ev) {
+      if (editing) ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+      ev.preventDefault();
+      const draggedId = ev.dataTransfer.getData("text");
+      const dragged = document.getElementById(draggedId);
+      const target = ev.target.closest(".position");
+      if (!dragged || !target || !editing) return;
+
+      const [name, meta] = dragged.textContent.split("•");
+      const rating = parseInt(meta.trim());
+      const playerObj = {
+        name: name.trim(),
+        position: target.id,
+        rating
+      };
+
+      // Remove from pitch
+      if (draggedId.startsWith("player-")) {
+        const from = draggedId.replace("player-", "");
+        delete lineup[from];
+      }
+
+      // Remove from subs
+      else if (draggedId.startsWith("sub-")) {
+        const index = parseInt(draggedId.split("-")[1]);
+        subsList.splice(index, 1);
+      }
+
+      // Push old player (if any) into subs
+      if (lineup[target.id]) {
+        subsList.push(lineup[target.id]);
+      }
+
+      // Assign new player to position
+      lineup[target.id] = playerObj;
+      renderAll();
+    }
+
+    function renderPlayer(player, position) {
+      const slot = document.getElementById(position);
       slot.innerHTML = "";
-      if (data) {
+      if (player) {
         const div = document.createElement("div");
         div.className = "card";
-        div.innerHTML = `<strong>${data.name}</strong><br>${data.position} • ${data.rating}`;
-        if (editing.enabled) {
-          div.id = 'player-${position}';
+        div.innerHTML = `<strong>${player.name}</strong><br>${player.position} • ${player.rating}`;
+        if (editing) {
+          div.id = "player-" + position;
           div.draggable = true;
           div.ondragstart = drag;
         }
@@ -166,7 +207,7 @@
         const div = document.createElement("div");
         div.className = "card";
         div.innerHTML = `<strong>${p.name}</strong><br>${p.position} • ${p.rating}`;
-        if (editing.enabled) {
+        if (editing) {
           div.id = "sub-" + i;
           div.draggable = true;
           div.ondragstart = drag;
@@ -175,44 +216,12 @@
       });
     }
 
-    function drag(ev) {
-      ev.dataTransfer.setData("text", ev.target.id);
-    }
-
-    function allowDrop(ev) {
-      if (editing.enabled) ev.preventDefault();
-    }
-
-    function drop(ev) {
-      ev.preventDefault();
-      const id = ev.dataTransfer.getData("text");
-      const dragged = document.getElementById(id);
-      const target = ev.target.closest(".position");
-      if (dragged && target && editing.enabled) {
-const data = ev.dataTransfer.getData("text");
-const dragged = document.getElementById(data);
-if (!dragged || !target || !target.classList.contains("position")) return;
-const [name, meta] = dragged.textContent.split("•");
-const rating = parseInt(meta.trim());
-lineup[target.id] = { name: name.trim(), position: target.id, rating };
-renderAll();
-
-      }
-    }
-
     function saveLineup() {
       localStorage.setItem("customFormation", JSON.stringify(lineup));
       alert("✅ Lineup saved!");
     }
 
     document.getElementById("toggleEdit").onclick = () => {
-      editing.enabled = !editing.enabled;
-      document.getElementById("toggleEdit").textContent = editing.enabled ? "✅ Done Editing" : "✏️ Change Lineup";
-      renderAll();
-    };
-
-    document.getElementById("club-name").textContent = "Arsenal Lineup";
-    renderAll();
-  </script>
-</body>
-</html>
+      editing = !editing;
+      document.getElementById("toggleEdit").textContent = editing
+        ? "✅ Done Editing"
