@@ -189,11 +189,14 @@
       const dragged = document.getElementById(id);
       const target = ev.target.closest(".position");
       if (dragged && target && editing.enabled) {
-        const playerName = dragged.querySelector("strong").textContent;
-        const meta = dragged.textContent.split("•")[1].trim();
-        const position = target.id;
-        lineup[position] = { name: playerName, position, rating: parseInt(meta) };
-        renderAll();
+const data = ev.dataTransfer.getData("text");
+const dragged = document.getElementById(data);
+if (!dragged || !target || !target.classList.contains("position")) return;
+const [name, meta] = dragged.textContent.split("•");
+const rating = parseInt(meta.trim());
+lineup[target.id] = { name: name.trim(), position: target.id, rating };
+renderAll();
+
       }
     }
 
