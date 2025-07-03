@@ -1,15 +1,12 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>View Squad</title>
   <style>
-    :root {
-      --accent-color: #a00000;
-      --text-color: #fff;
-    }
-
+    :root { --accent-color: #a00000; --text-color: #fff; }
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f4f4f8;
@@ -17,11 +14,7 @@
       padding: 20px;
       text-align: center;
     }
-
-    h1 {
-      color: var(--accent-color);
-    }
-
+    h1 { color: var(--accent-color); }
     #formation {
       display: flex;
       flex-direction: column;
@@ -29,13 +22,11 @@
       margin: 20px auto;
       max-width: 700px;
     }
-
     .row {
       display: flex;
       justify-content: center;
       gap: 15px;
     }
-
     .position {
       background: linear-gradient(to bottom, #fff, var(--accent-color));
       border-radius: 8px;
@@ -44,26 +35,16 @@
       padding: 5px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
       color: var(--text-color);
-      font-size: 14px;
     }
-
     .card {
       cursor: grab;
       background: #fff3;
       padding: 6px;
       border-radius: 6px;
+      color: #000;
     }
-
-    .name {
-      font-weight: bold;
-      font-size: 15px;
-    }
-
-    .meta {
-      font-size: 13px;
-      opacity: 0.9;
-    }
-
+    .name { font-weight: bold; font-size: 15px; }
+    .meta { font-size: 13px; opacity: 0.9; }
     #subs {
       display: flex;
       justify-content: center;
@@ -75,7 +56,6 @@
       color: #fff;
       margin-top: 30px;
     }
-
     button {
       background: var(--accent-color);
       color: #fff;
@@ -86,15 +66,11 @@
       margin: 10px;
       cursor: pointer;
     }
-
-    button:hover {
-      background: #800000;
-    }
+    button:hover { background: #800000; }
   </style>
 </head>
 <body>
-  <h1 id="club-name">Arsenal Lineup</h1>
-
+  <h1 id="club-name">Loading...</h1>
   <button id="toggleEdit">✏️ Change Lineup</button>
   <button onclick="saveLineup()">💾 Save Lineup</button>
 
@@ -122,132 +98,113 @@
 
   <h2>Substitutes</h2>
   <div id="subs"></div>
-<script>
-  let editing = false;
 
-  const lineup = {
-    LW: { name: "Gabriel Martinelli", position: "LW", rating: 84 },
-    ST: { name: "Gabriel Jesus", position: "ST", rating: 85 },
-    RW: { name: "Bukayo Saka", position: "RW", rating: 86 },
-    LCM: { name: "Declan Rice", position: "LCM", rating: 87 },
-    CM: { name: "Martin Ødegaard", position: "CM", rating: 87 },
-    RCM: { name: "Jorginho", position: "RCM", rating: 81 },
-    LB: { name: "Oleksandr Zinchenko", position: "LB", rating: 80 },
-    LCB: { name: "Gabriel Magalhães", position: "LCB", rating: 83 },
-    RCB: { name: "William Saliba", position: "RCB", rating: 84 },
-    RB: { name: "Ben White", position: "RB", rating: 81 },
-    GK: { name: "David Raya", position: "GK", rating: 82 }
-  };
+  <!-- ⚠️ Load squads BEFORE this script -->
+  <script src="squads.js"></script>
+  <script>
+    let editing = false;
 
-  const subsList = [
-    { name: "Aaron Ramsdale", position: "GK", rating: 81 },
-    { name: "Jurrien Timber", position: "RB", rating: 79 },
-    { name: "Takehiro Tomiyasu", position: "CB", rating: 80 },
-    { name: "Fabio Vieira", position: "CAM", rating: 77 },
-    { name: "Leandro Trossard", position: "LW", rating: 82 },
-    { name: "Eddie Nketiah", position: "ST", rating: 77 },
-    { name: "Emile Smith Rowe", position: "CAM", rating: 78 }
-  ];
+    const teamName = localStorage.getItem("selectedTeam") || "Arsenal";
+    const teamData = squads[teamName];
+    const lineup = teamData.lineup;
+    const subsList = [...teamData.subs];
 
-  function allowDrop(ev) {
-    if (editing) ev.preventDefault();
-  }
+    document.getElementById("club-name").textContent = `${teamName} Lineup`;
 
-  function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-  }
+    function allowDrop(ev) {
+      if (editing) ev.preventDefault();
+    }
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+    function drop(ev) {
+      ev.preventDefault();
+      const draggedId = ev.dataTransfer.getData("text");
+      const dragged = document.getElementById(draggedId);
+      const target = ev.target.closest(".position");
+      if (!dragged || !target || !editing) return;
 
-  function drop(ev) {
-    ev.preventDefault();
-    const draggedId = ev.dataTransfer.getData("text");
-    const dragged = document.getElementById(draggedId);
-    const target = ev.target.closest(".position");
-    if (!dragged || !target || !editing) return;
+      const [nameLine, metaLine] = dragged.innerText.split("\n");
+      if (!nameLine || !metaLine) return;
 
-    const nameEl = dragged.querySelector(".name");
-    const metaEl = dragged.querySelector(".meta");
+      const playerName = nameLine.trim();
+      const [_, ratingStr] = metaLine.split("•").map(x => x.trim());
+      const rating = parseInt(ratingStr);
 
-    if (!nameEl || !metaEl) return;
+      const playerObj = {
+        name: playerName,
+        position: target.id,
+        rating
+      };
 
-    const playerName = nameEl.textContent.trim();
-    const [_, ratingText] = metaEl.textContent.split("•").map(s => s.trim());
-    const rating = parseInt(ratingText);
+      if (draggedId.startsWith("player-")) {
+        const from = draggedId.replace("player-", "");
+        delete lineup[from];
+      } else if (draggedId.startsWith("sub-")) {
+        const index = parseInt(draggedId.split("-")[1]);
+        subsList.splice(index, 1);
+      }
 
-    const playerObj = {
-      name: playerName,
-      position: target.id,
-      rating
-    };
+      if (lineup[target.id]) {
+        subsList.push(lineup[target.id]);
+      }
 
-    if (draggedId.startsWith("player-")) {
-      const from = draggedId.replace("player-", "");
-      delete lineup[from];
-    } else if (draggedId.startsWith("sub-")) {
-      const index = parseInt(draggedId.split("-")[1]);
-      subsList.splice(index, 1);
+      lineup[target.id] = playerObj;
+      renderAll();
     }
 
-    if (lineup[target.id]) {
-      subsList.push(lineup[target.id]);
-    }
-
-    lineup[target.id] = playerObj;
-    renderAll();
-  }
-
-  function renderPlayer(player, position) {
-    const slot = document.getElementById(position);
-    slot.innerHTML = "";
-    if (!player || !player.name) return;
-
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerHTML = `
-      <div class="name">${player.name}</div>
-      <div class="meta">${player.position} • ${player.rating}</div>
-    `;
-    if (editing) {
-      div.id = "player-" + position;
-      div.draggable = true;
-      div.ondragstart = drag;
-    }
-    slot.appendChild(div);
-  }
-
-  function renderAll() {
-    Object.keys(lineup).forEach(pos => renderPlayer(lineup[pos], pos));
-    const subs = document.getElementById("subs");
-    subs.innerHTML = "";
-    subsList.forEach((p, i) => {
+    function renderPlayer(player, position) {
+      const slot = document.getElementById(position);
+      slot.innerHTML = "";
+      if (!player || !player.name) return;
       const div = document.createElement("div");
       div.className = "card";
       div.innerHTML = `
-        <div class="name">${p.name}</div>
-        <div class="meta">${p.position} • ${p.rating}</div>
+        <div class="name">${player.name}</div>
+        <div class="meta">${player.position} • ${player.rating}</div>
       `;
       if (editing) {
-        div.id = "sub-" + i;
+        div.id = "player-" + position;
         div.draggable = true;
         div.ondragstart = drag;
       }
-      subs.appendChild(div);
-    });
-  }
+      slot.appendChild(div);
+    }
 
-  function saveLineup() {
-    localStorage.setItem("customFormation", JSON.stringify(lineup));
-    alert("✅ Lineup saved!");
-  }
+    function renderAll() {
+      Object.keys(lineup).forEach(pos => renderPlayer(lineup[pos], pos));
+      const subs = document.getElementById("subs");
+      subs.innerHTML = "";
+      subsList.forEach((p, i) => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `
+          <div class="name">${p.name}</div>
+          <div class="meta">${p.position} • ${p.rating}</div>
+        `;
+        if (editing) {
+          div.id = "sub-" + i;
+          div.draggable = true;
+          div.ondragstart = drag;
+        }
+        subs.appendChild(div);
+      });
+    }
 
-  document.getElementById("toggleEdit").onclick = () => {
-    editing = !editing;
-    document.getElementById("toggleEdit").textContent = editing
-      ? "✅ Done Editing"
-      : "✏️ Change Lineup";
+    function saveLineup() {
+      localStorage.setItem("customFormation", JSON.stringify(lineup));
+      alert("✅ Lineup saved!");
+    }
+
+    document.getElementById("toggleEdit").onclick = () => {
+      editing = !editing;
+      document.getElementById("toggleEdit").textContent = editing
+        ? "✅ Done Editing"
+        : "✏️ Change Lineup";
+      renderAll();
+    };
+
     renderAll();
-  };
-
-  renderAll();
-</script>
+  </script>
 </body>
 </html>
