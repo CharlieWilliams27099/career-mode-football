@@ -1,246 +1,215 @@
+<!-- Your upgraded view-squad.html file -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>View Squad</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
-  body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #f0f2f5, #ffffff);
-  color: var(--text-color, #000);
-  padding: 30px;
-  margin: 0;
-}
-
-h1, h2 {
-  margin-top: 0;
-  color: var(--accent-color, #004aad);
-  text-align: center;
-  font-weight: 600;
-}
-
-.player-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-  min-height: 120px;
-  transition: background 0.3s ease;
-}
-
-.card {
-  background: linear-gradient(to bottom, #ffffff, var(--accent-color, #007BFF));
-  color: var(--text-color, #fff);
-  border-radius: 10px;
-  padding: 12px 16px;
-  min-width: 180px;
-  max-width: 200px;
-  box-shadow: 2px 6px 12px rgba(0,0,0,0.1);
-  cursor: grab;
-  user-select: none;
-  text-align: center;
-  font-size: 15px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: scale(1.03);
-  box-shadow: 4px 8px 18px rgba(0,0,0,0.2);
-}
-
-.card .name {
-  font-weight: bold;
-  font-size: 16px;
-  margin-bottom: 4px;
-}
-
-.card .meta {
-  font-size: 13px;
-  opacity: 0.9;
-}
-
-button {
-  display: block;
-  margin: 30px auto 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background: var(--accent-color, #007BFF);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-button:hover {
-  background: #0056b3;
-}
-
-a {
-  display: block;
-  text-align: center;
-  margin-top: 20px;
-  color: var(--accent-color, #007BFF);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-    h1, h2 {
-      margin-top: 0;
+    :root {
+      --accent-color: #a00000;
+      --text-color: #fff;
     }
-    .player-grid {
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f8;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: var(--accent-color);
+      margin-bottom: 10px;
+    }
+
+    #formation {
       display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin: 20px auto;
+      max-width: 700px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .position {
+      background: linear-gradient(to bottom, #fff, var(--accent-color));
+      border-radius: 8px;
+      min-width: 100px;
+      min-height: 60px;
+      padding: 5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      color: var(--text-color);
+      font-size: 14px;
+    }
+
+    .card {
+      cursor: grab;
+    }
+
+    #subs {
+      display: flex;
+      justify-content: center;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 20px;
-      min-height: 50px;
-      padding: 10px;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-    }
-    .card {
-      background-color: var(--accent-color, #007BFF);
-      color: var(--text-color, #fff);
-      padding: 10px;
-      border-radius: 6px;
-      width: 160px;
-      cursor: grab;
-      user-select: none;
-    }
-    .card .name {
-      font-weight: bold;
-    }
-    button {
-      padding: 8px 16px;
-      font-size: 16px;
-      border: none;
-      background: #007BFF;
+      background: #222;
+      padding: 15px;
+      border-radius: 12px;
       color: #fff;
-      border-radius: 4px;
+      margin-top: 30px;
+    }
+
+    .bench .card {
+      background: #333;
+    }
+
+    button {
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      font-size: 15px;
+      border-radius: 6px;
+      margin: 10px;
       cursor: pointer;
     }
+
     button:hover {
-      background: #0056b3;
-    }
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      text-decoration: none;
-      color: #007BFF;
+      background: #800000;
     }
   </style>
 </head>
 <body>
   <h1 id="club-name">Loading...</h1>
 
-  <h2>Starting 11</h2>
-  <div id="starting" class="player-grid" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+  <button id="toggleEdit">✏️ Change Lineup</button>
+  <button onclick="saveLineup()">💾 Save Lineup</button>
+
+  <div id="formation">
+    <div class="row forwards">
+      <div class="position" id="LW"></div>
+      <div class="position" id="ST"></div>
+      <div class="position" id="RW"></div>
+    </div>
+    <div class="row mids">
+      <div class="position" id="LCM"></div>
+      <div class="position" id="CM"></div>
+      <div class="position" id="RCM"></div>
+    </div>
+    <div class="row defense">
+      <div class="position" id="LB"></div>
+      <div class="position" id="LCB"></div>
+      <div class="position" id="RCB"></div>
+      <div class="position" id="RB"></div>
+    </div>
+    <div class="row gk">
+      <div class="position" id="GK"></div>
+    </div>
+  </div>
 
   <h2>Substitutes</h2>
-  <div id="subs" class="player-grid" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-
-  <button onclick="saveLineup()">💾 Save Lineup</button>
-  <br />
-  <a href="dashboard.html">← Back to Dashboard</a>
+  <div id="subs" class="bench" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 
   <script>
-    const squads = {
-      "Arsenal": {
-        color: "#a00000",
-        starters: [
-          { name: "Bukayo Saka", position: "RW", rating: 86 },
-          { name: "Gabriel Martinelli", position: "LW", rating: 84 },
-          { name: "Martin Ødegaard", position: "CAM", rating: 87 }
-        ],
-        subs: [
-          { name: "Emile Smith Rowe", position: "CM", rating: 78 },
-          { name: "Reiss Nelson", position: "RW", rating: 76 }
-        ]
-      },
-      "Liverpool": {
-        color: "#c8102e",
-        starters: [
-          { name: "Mohamed Salah", position: "RW", rating: 89 },
-          { name: "Virgil van Dijk", position: "CB", rating: 88 },
-          { name: "Alisson Becker", position: "GK", rating: 89 }
-        ],
-        subs: [
-          { name: "Cody Gakpo", position: "CF", rating: 83 },
-          { name: "Harvey Elliott", position: "CM", rating: 78 }
-        ]
-      }
+    const editing = { enabled: false };
+
+    const lineup = {
+      LW: { name: "Gabriel Martinelli", position: "LW", rating: 84 },
+      ST: { name: "Gabriel Jesus", position: "ST", rating: 85 },
+      RW: { name: "Bukayo Saka", position: "RW", rating: 86 },
+      LCM: { name: "Declan Rice", position: "LCM", rating: 87 },
+      CM: { name: "Martin Ødegaard", position: "CM", rating: 87 },
+      RCM: { name: "Thomas Partey", position: "RCM", rating: 83 },
+      LB: { name: "Oleksandr Zinchenko", position: "LB", rating: 80 },
+      LCB: { name: "Gabriel Magalhães", position: "LCB", rating: 83 },
+      RCB: { name: "William Saliba", position: "RCB", rating: 84 },
+      RB: { name: "Ben White", position: "RB", rating: 81 },
+      GK: { name: "David Raya", position: "GK", rating: 82 }
     };
 
-    const team = localStorage.getItem("selectedTeam") || "Unknown";
-    const data = squads[team];
+    const subsList = [
+      { name: "Aaron Ramsdale", position: "GK", rating: 81 },
+      { name: "Jurrien Timber", position: "RB", rating: 79 },
+      { name: "Takehiro Tomiyasu", position: "CB", rating: 80 },
+      { name: "Jorginho", position: "CM", rating: 81 },
+      { name: "Fabio Vieira", position: "CAM", rating: 77 },
+      { name: "Leandro Trossard", position: "LW", rating: 82 },
+      { name: "Eddie Nketiah", position: "ST", rating: 77 }
+    ];
 
-    function allowDrop(ev) {
-      ev.preventDefault();
+    function renderPlayer(data, id) {
+      const slot = document.getElementById(id);
+      slot.innerHTML = "";
+      if (data) {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `<strong>${data.name}</strong><br>${data.position} • ${data.rating}`;
+        if (editing.enabled) {
+          div.id = id;
+          div.draggable = true;
+          div.ondragstart = drag;
+        }
+        slot.appendChild(div);
+      }
+    }
+
+    function renderAll() {
+      Object.keys(lineup).forEach(pos => renderPlayer(lineup[pos], pos));
+      const subs = document.getElementById("subs");
+      subs.innerHTML = "";
+      subsList.forEach((p, i) => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `<strong>${p.name}</strong><br>${p.position} • ${p.rating}`;
+        if (editing.enabled) {
+          div.id = "sub-" + i;
+          div.draggable = true;
+          div.ondragstart = drag;
+        }
+        subs.appendChild(div);
+      });
     }
 
     function drag(ev) {
       ev.dataTransfer.setData("text", ev.target.id);
     }
 
+    function allowDrop(ev) {
+      if (editing.enabled) ev.preventDefault();
+    }
+
     function drop(ev) {
       ev.preventDefault();
-      const dataId = ev.dataTransfer.getData("text");
-      const card = document.getElementById(dataId);
-      ev.target.closest(".player-grid").appendChild(card);
+      const id = ev.dataTransfer.getData("text");
+      const dragged = document.getElementById(id);
+      const target = ev.target.closest(".position");
+      if (dragged && target && editing.enabled) {
+        const playerName = dragged.querySelector("strong").textContent;
+        const meta = dragged.textContent.split("•")[1].trim();
+        const position = target.id;
+        lineup[position] = { name: playerName, position, rating: parseInt(meta) };
+        renderAll();
+      }
     }
 
     function saveLineup() {
-      const starters = Array.from(document.getElementById("starting").children).map(p => p.textContent);
-      const subs = Array.from(document.getElementById("subs").children).map(p => p.textContent);
-      localStorage.setItem("customLineup", JSON.stringify({ starters, subs }));
+      localStorage.setItem("customFormation", JSON.stringify(lineup));
       alert("✅ Lineup saved!");
     }
 
-    function setTheme(color) {
-      document.documentElement.style.setProperty("--accent-color", color);
-      const r = parseInt(color.substr(1, 2), 16);
-      const g = parseInt(color.substr(3, 2), 16);
-      const b = parseInt(color.substr(5, 2), 16);
-      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-      document.documentElement.style.setProperty("--text-color", brightness < 140 ? "#fff" : "#000");
-    }
+    document.getElementById("toggleEdit").onclick = () => {
+      editing.enabled = !editing.enabled;
+      document.getElementById("toggleEdit").textContent = editing.enabled ? "✅ Done Editing" : "✏️ Change Lineup";
+      renderAll();
+    };
 
-    function show(players, containerId) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = "";
-      players.forEach((p, i) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.id = `${containerId}-player-${i}`;
-        card.draggable = true;
-        card.ondragstart = drag;
-        card.innerHTML = `<div class="name">${p.name}</div><div class="meta">${p.position} • Rating: ${p.rating}</div>`;
-        container.appendChild(card);
-      });
-    }
-
-    if (data) {
-      document.getElementById("club-name").textContent = `${team} Lineup`;
-      show(data.starters, "starting");
-      show(data.subs, "subs");
-      setTheme(data.color);
-    } else {
-      document.getElementById("club-name").textContent = "⚠️ No team selected!";
-      setTimeout(() => {
-        window.location.href = "league-select.html";
-      }, 1500);
-    }
+    document.getElementById("club-name").textContent = "Arsenal Lineup";
+    renderAll();
   </script>
 </body>
 </html>
