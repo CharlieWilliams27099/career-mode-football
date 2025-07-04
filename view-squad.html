@@ -1,210 +1,48 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>View Squad</title>
-  <style>
-    :root { --accent-color: #a00000; --text-color: #fff; }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f4f8;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
-    }
-    h1 { color: var(--accent-color); }
-    #formation {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin: 20px auto;
-      max-width: 700px;
-    }
-    .row {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-    .position {
-      background: linear-gradient(to bottom, #fff, var(--accent-color));
-      border-radius: 8px;
-      min-width: 100px;
-      min-height: 60px;
-      padding: 5px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      color: var(--text-color);
-    }
-    .card {
-      cursor: grab;
-      background: #fff3;
-      padding: 6px;
-      border-radius: 6px;
-      color: #000;
-    }
-    .name { font-weight: bold; font-size: 15px; }
-    .meta { font-size: 13px; opacity: 0.9; }
-    #subs {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      background: #222;
-      padding: 15px;
-      border-radius: 12px;
-      color: #fff;
-      margin-top: 30px;
-    }
-    button {
-      background: var(--accent-color);
-      color: #fff;
-      border: none;
-      padding: 10px 16px;
-      font-size: 15px;
-      border-radius: 6px;
-      margin: 10px;
-      cursor: pointer;
-    }
-    button:hover { background: #800000; }
-  </style>
+    <meta charset="UTF-8">
+    <title>View Squad</title>
+    <style>
+        :root { --accent-color: #a00000; --text-color: #fff; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f8; margin: 0; padding: 20px; text-align: center; }
+        h1 { color: var(--accent-color); }
+        #formation { display: flex; flex-direction: column; gap: 20px; margin: 20px auto; max-width: 700px; }
+        .row { display: flex; justify-content: center; gap: 10px; }
+        .player { background: var(--accent-color); color: var(--text-color); padding: 10px 15px; border-radius: 5px; }
+    </style>
 </head>
 <body>
-  <h1 id="club-name">Loading...</h1>
-  <button id="toggleEdit">✏️ Change Lineup</button>
-  <button onclick="saveLineup()">💾 Save Lineup</button>
+    <h1>Squad</h1>
+    <div id="formation"></div>
+    <script src="squads.js"></script>
+    <script>
+        const selectedTeam = localStorage.getItem('selectedTeam');
+        const formationDiv = document.getElementById('formation');
 
-  <div id="formation">
-    <div class="row forwards">
-      <div class="position" id="LW" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-      <div class="position" id="ST" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-      <div class="position" id="RW" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-    </div>
-    <div class="row mids">
-      <div class="position" id="LCM" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-      <div class="position" id="CM" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-      <div class="position" id="RCM" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-    </div>
-    <div class="row defense">
-      <div class="position" id="LB" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-      <div class="position" id="LCB" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-      <div class="position" id="RCB" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-      <div class="position" id="RB" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-    </div>
-    <div class="row gk">
-      <div class="position" id="GK" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-    </div>
-  </div>
+        if (selectedTeam && squads[selectedTeam]) {
+            const lineup = squads[selectedTeam].lineup;
+            const formation = [
+                ['GK'],
+                ['LB', 'LCB', 'RCB', 'RB'],
+                ['LCM', 'CM', 'RCM'],
+                ['LW', 'ST', 'RW']
+            ];
 
-  <h2>Substitutes</h2>
-  <div id="subs"></div>
-
-  <!-- ⚠️ Load squads BEFORE this script -->
-  <script src="squads.js"></script>
-  <script>
-    let editing = false;
-
-    const teamName = localStorage.getItem("selectedTeam") || "Arsenal";
-    const teamData = squads[teamName];
-    const lineup = teamData.lineup;
-    const subsList = [...teamData.subs];
-
-    document.getElementById("club-name").textContent = `${teamName} Lineup`;
-
-    function allowDrop(ev) {
-      if (editing) ev.preventDefault();
-    }
-    function drag(ev) {
-      ev.dataTransfer.setData("text", ev.target.id);
-    }
-    function drop(ev) {
-      ev.preventDefault();
-      const draggedId = ev.dataTransfer.getData("text");
-      const dragged = document.getElementById(draggedId);
-      const target = ev.target.closest(".position");
-      if (!dragged || !target || !editing) return;
-
-      const [nameLine, metaLine] = dragged.innerText.split("\n");
-      if (!nameLine || !metaLine) return;
-
-      const playerName = nameLine.trim();
-      const [_, ratingStr] = metaLine.split("•").map(x => x.trim());
-      const rating = parseInt(ratingStr);
-
-      const playerObj = {
-        name: playerName,
-        position: target.id,
-        rating
-      };
-
-      if (draggedId.startsWith("player-")) {
-        const from = draggedId.replace("player-", "");
-        delete lineup[from];
-      } else if (draggedId.startsWith("sub-")) {
-        const index = parseInt(draggedId.split("-")[1]);
-        subsList.splice(index, 1);
-      }
-
-      if (lineup[target.id]) {
-        subsList.push(lineup[target.id]);
-      }
-
-      lineup[target.id] = playerObj;
-      renderAll();
-    }
-
-    function renderPlayer(player, position) {
-      const slot = document.getElementById(position);
-      slot.innerHTML = "";
-      if (!player || !player.name) return;
-      const div = document.createElement("div");
-      div.className = "card";
-      div.innerHTML = `
-        <div class="name">${player.name}</div>
-        <div class="meta">${player.position} • ${player.rating}</div>
-      `;
-      if (editing) {
-        div.id = "player-" + position;
-        div.draggable = true;
-        div.ondragstart = drag;
-      }
-      slot.appendChild(div);
-    }
-
-    function renderAll() {
-      Object.keys(lineup).forEach(pos => renderPlayer(lineup[pos], pos));
-      const subs = document.getElementById("subs");
-      subs.innerHTML = "";
-      subsList.forEach((p, i) => {
-        const div = document.createElement("div");
-        div.className = "card";
-        div.innerHTML = `
-          <div class="name">${p.name}</div>
-          <div class="meta">${p.position} • ${p.rating}</div>
-        `;
-        if (editing) {
-          div.id = "sub-" + i;
-          div.draggable = true;
-          div.ondragstart = drag;
+            formation.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'row';
+                row.forEach(position => {
+                    const playerDiv = document.createElement('div');
+                    playerDiv.className = 'player';
+                    playerDiv.textContent = `${lineup[position]?.name || 'N/A'} (${position})`;
+                    rowDiv.appendChild(playerDiv);
+                });
+                formationDiv.appendChild(rowDiv);
+            });
+        } else {
+            formationDiv.innerText = 'Squad not found.';
         }
-        subs.appendChild(div);
-      });
-    }
-
-    function saveLineup() {
-      localStorage.setItem("customFormation", JSON.stringify(lineup));
-      alert("✅ Lineup saved!");
-    }
-
-    document.getElementById("toggleEdit").onclick = () => {
-      editing = !editing;
-      document.getElementById("toggleEdit").textContent = editing
-        ? "✅ Done Editing"
-        : "✏️ Change Lineup";
-      renderAll();
-    };
-
-    renderAll();
-  </script>
+    </script>
 </body>
 </html>
