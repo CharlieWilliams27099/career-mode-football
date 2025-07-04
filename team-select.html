@@ -1,87 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Select Your Team</title>
-  <style>
-    body {
-      background: #0b132b;
-      color: #f8f9fa;
-      font-family: 'Segoe UI', sans-serif;
-      padding: 40px 20px;
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 30px;
-    }
-
-    .teams {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .teams button {
-      background-color: #1c2541;
-      border: none;
-      color: white;
-      padding: 14px 20px;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .teams button:hover {
-      background-color: #3a506b;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Select Your Team</title>
+    <style>
+        body { background: #0b132b; color: #f8f9fa; font-family: 'Segoe UI', sans-serif; padding: 40px 20px; text-align: center; }
+        h1 { font-size: 2rem; margin-bottom: 30px; }
+        .teams { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 20px; }
+        .team { background: #1c2541; padding: 20px; cursor: pointer; border-radius: 10px; }
+    </style>
 </head>
 <body>
-  <h1 id="league-title">Loading teams...</h1>
-  <div class="teams" id="team-container"></div>
-
-  <script>
-    const leagueTeams = {
-      "Premier League": ["Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton", "Burnley", "Chelsea", "Crystal Palace", "Everton", "Fulham", "Liverpool", "Luton Town", "Man City", "Man United", "Newcastle", "Nottingham Forest", "Sheffield United", "Spurs", "West Ham", "Wolves"],
-      "Championship": ["Birmingham", "Blackburn", "Bristol City", "Cardiff", "Coventry", "Huddersfield", "Hull", "Ipswich", "Leeds", "Leicester", "Middlesbrough", "Millwall", "Norwich", "Plymouth", "Preston", "QPR", "Rotherham", "Sheffield Wednesday", "Southampton", "Stoke", "Sunderland", "Swansea", "Watford", "West Brom"],
-      "League One": ["Barnsley", "Blackpool", "Bolton", "Bristol Rovers", "Burton Albion", "Cambridge United", "Carlisle", "Charlton", "Cheltenham", "Derby", "Exeter", "Fleetwood", "Leyton Orient", "Lincoln", "Northampton", "Oxford United", "Peterborough", "Port Vale", "Portsmouth", "Reading", "Shrewsbury", "Stevenage", "Wigan", "Wycombe"],
-      "League Two": ["Accrington", "AFC Wimbledon", "Barrow", "Bradford", "Colchester", "Crawley", "Crewe", "Doncaster", "Forest Green", "Gillingham", "Grimsby", "Harrogate", "Mansfield", "MK Dons", "Morecambe", "Newport County", "Notts County", "Salford", "Stockport", "Sutton United", "Swindon", "Tranmere", "Walsall", "Wrexham"]
-    };
-
-    const selectedLeague = localStorage.getItem("selectedLeague");
-    const leagueHeader = document.getElementById("league-title");
-    const teamContainer = document.getElementById("team-container");
-
-    function buildButtons() {
-      teamContainer.innerHTML = ""; // ✅ clear existing buttons
-
-      if (!selectedLeague || !leagueTeams[selectedLeague]) {
-        leagueHeader.textContent = "Oops! League not selected or not found.";
-        return;
-      }
-
-      leagueHeader.textContent = `Select a Club from the ${selectedLeague}`;
-
-      leagueTeams[selectedLeague].forEach(team => {
-        const button = document.createElement("button");
-        button.textContent = team;
-        button.addEventListener("click", () => {
-          localStorage.setItem("selectedTeam", team);
-          localStorage.setItem("selectedLeague", selectedLeague);
-          window.location.href = "dashboard.html";
-        });
-        teamContainer.appendChild(button);
-      });
-    }
-
-    window.addEventListener("DOMContentLoaded", buildButtons);
-  </script>
+    <h1>Select Your Team</h1>
+    <div id="teams" class="teams"></div>
+    <script src="squads.js"></script>
+    <script>
+        const teamsDiv = document.getElementById('teams');
+        for (const team in squads) {
+            const teamDiv = document.createElement('div');
+            teamDiv.className = 'team';
+            teamDiv.innerText = team;
+            teamDiv.onclick = () => {
+                localStorage.setItem('selectedTeam', team);
+                window.location.href = 'view-squad.html';
+            };
+            teamsDiv.appendChild(teamDiv);
+        }
+    </script>
 </body>
 </html>
-
-
 
